@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+    <Switch
+        android:id="@+id/stereo_switch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="60dp"
+        android:gravity="start"
+        android:text="Stereo"
+        android:onClick="switchStereo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <Switch
+        android:id="@+id/lrsound"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="start"
+        android:text="@string/living_room"
+        android:onClick="toggleLivingRoom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/brsound" />
+
+    <Switch
+        android:id="@+id/brsound"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="start"
+        android:onClick="toggleBedRoom"
+        android:text="@string/bedroom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stereo_switch" />
+
+    <Switch
+        android:id="@+id/spotify"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="start"
+        android:onClick="toggleSpotify"
+        android:text="Spotify"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lrsound" />
+
+    <Switch
+        android:id="@+id/kl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="start"
+        android:onClick="kitchenLights"
+        android:text="Kitchen Lights"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lrl" />
+
+
+    <Switch
+        android:id="@+id/brl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="start"
+        android:onClick="bedroomLights"
+        android:text="Bedroom Lights"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/triplej" />
+
+    <Switch
+        android:id="@+id/lrl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="start"
+        android:onClick="livingRoomLights"
+        android:text="Living Room Lights"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/brl" />
+
+    <Switch
+        android:id="@+id/pm"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="start"
+        android:onClick="partyMode"
+        android:text="Party Mode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kl" />
+
+    <Button
+        android:id="@+id/etChooseTimeMF"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:onClick="setMFAlarm"
+        android:text="Weekday Alarm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pm" />
+
+    <Button
+        android:id="@+id/ClearMF"
+        android:layout_width="36dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:onClick="clearMFAlarm"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pm" />
+
+    <TextView
+        android:id="@+id/MF_Time"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:gravity="center"
+        android:text="07:35"
+        app:layout_constraintRight_toLeftOf="@+id/ClearMF"
+        app:layout_constraintTop_toBottomOf="@+id/pm" />
+
+    <Button
+        android:id="@+id/etChooseTimeSS"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:onClick="setSSAlarm"
+        android:text="Weekend Alarm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etChooseTimeMF" />
+
+    <TextView
+        android:id="@+id/SS_Time"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:gravity="center"
+        android:text="10:00"
+        app:layout_constraintRight_toLeftOf="@+id/ClearSS"
+        app:layout_constraintTop_toBottomOf="@+id/MF_Time" />
+
+    <Button
+        android:id="@+id/ClearSS"
+        android:layout_width="36dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:onClick="clearSSAlarm"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ClearMF" />
+
+    <ImageView
+        android:id="@+id/fip"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="fip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spotify"
+        app:srcCompat="@drawable/fip_icon" />
+
+
+    <ImageView
+        android:id="@+id/fip_electro"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="fip_electro"
+        app:layout_constraintLeft_toRightOf="@+id/fip"
+        app:layout_constraintTop_toBottomOf="@+id/spotify"
+        app:srcCompat="@drawable/fip_electro" />
+
+    <ImageView
+        android:id="@+id/triplej"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="triplej"
+        app:layout_constraintLeft_toRightOf="@+id/fip_electro"
+        app:layout_constraintTop_toBottomOf="@+id/spotify"
+        app:srcCompat="@drawable/triplej_icon" />
+
+    <ImageView
+        android:id="@+id/folk_forward"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="folk_forward"
+        app:layout_constraintLeft_toRightOf="@+id/triplej"
+        app:layout_constraintTop_toBottomOf="@+id/spotify"
+        app:srcCompat="@drawable/folkfwd_icon" />
+
+    <ImageView
+        android:id="@+id/gaydio"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="gaydio"
+        app:layout_constraintLeft_toRightOf="@+id/folk_forward"
+        app:layout_constraintTop_toBottomOf="@+id/spotify"
+        app:srcCompat="@drawable/gaydio_icon" />
+
+    <ImageView
+        android:id="@+id/bbc6"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="bbc6"
+        app:layout_constraintLeft_toRightOf="@+id/gaydio"
+        app:layout_constraintTop_toBottomOf="@+id/spotify"
+        app:srcCompat="@drawable/bbc_icon" />
+
+    <SeekBar
+        android:id="@+id/brightness"
+        android:layout_width="355dp"
+        android:layout_marginTop="8dp"
+        android:layout_height="16dp"
+        android:max="63"
+        app:layout_constraintTop_toBottomOf="@+id/SS_Time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,32 @@
+<State>
+    <Music>
+        <Stereo>False</Stereo>
+        <Living_Room>False</Living_Room>
+        <Bedroom>False</Bedroom>
+        <Spotify>False</Spotify>
+        <Radio>Off</Radio>
+    </Music>
+
+    <Lights>
+        <Kitchen>False</Kitchen>
+        <Living_Room>False</Living_Room>
+        <Bedroom>False</Bedroom>
+    </Lights>
+
+    <Alarm>
+        <Weekday>
+            <Set>False</Set>
+            <Time>
+                <Hours>0</Hours>
+                <Minutes>0</Minutes>
+            </Time>
+        </Weekday>
+        <Weekend>
+            <Set>False</Set>
+            <Time>
+                <Hours>0</Hours>
+                <Minutes>0</Minutes>
+            </Time>
+        </Weekend>
+    </Alarm>
+</State>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DAWN</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="living_room">Living Room</string>
+    <string name="bedroom">Bedroom</string>
+    <string name="radio">radio</string>
+    <string name="spotify_off">Spotify Off</string>
+    <string name="spotify_on">spotify_on</string>
+    <string name="spotify_string_spotify_on">Spotify @string/spotify_on</string>
+</resources>
