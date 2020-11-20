@@ -3,7 +3,8 @@ import time
 from music_handler import MusicHandler
 from warm_glow import LightHandler
 
-RECOGNISED_PHONE_IPS = {'Parsons Fairphone': '192.168.1.213'}
+RECOGNISED_PHONE_IPS = ['192.168.1.213',  # Parsons Fairphone
+                        '192.168.1.130']  # Sophs Fairphone
 
 class PhoneWatch:
     light_handler = ...  # type: LightHandler
@@ -18,7 +19,7 @@ class PhoneWatch:
         while True:
             time.sleep(30 * 60)
             any_phones_found = False
-            for ip in RECOGNISED_PHONE_IPS.values():
+            for ip in RECOGNISED_PHONE_IPS:
                 response = os.system("ping -c 1 " + ip)
                 # and then check the response...
                 if response == 0:
