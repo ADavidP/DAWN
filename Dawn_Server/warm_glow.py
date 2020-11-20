@@ -29,6 +29,9 @@ class LightHandler:
     START_LIVING_ROOM_STARBOARD_LED = 35 + PORT_CABIN_LEDS + STERN_LEDS
     END_LIVING_ROOM_STARBOARD_LED = START_LIVING_ROOM_STARBOARD_LED + END_LIVING_ROOM_PORT_LED
 
+    START_OFFICE_LED = 10
+    END_OFFICE_LED = 26
+
     START_KITCHEN_PORT_LED = END_LIVING_ROOM_PORT_LED
     END_KITCHEN_PORT_LED = PORT_CABIN_LEDS
     START_KITCHEN_STARBOARD_LED = END_KITCHEN_PORT_LED + STERN_LEDS
@@ -50,6 +53,7 @@ class LightHandler:
         self.br_on = False
         self.lr_on = False
         self.k_on = False
+        self.o_on = False
         self.brightness = 1
         self.ongoing_party = False
 
@@ -94,10 +98,21 @@ class LightHandler:
             self.set_batch(self.START_LIVING_ROOM_PORT_LED, self.END_LIVING_ROOM_PORT_LED, brightness=0)
             self.set_batch(self.START_LIVING_ROOM_STARBOARD_LED, self.END_LIVING_ROOM_STARBOARD_LED, brightness=0)
             self.lr_on = False
+            self.o_on = False
         else:
             self.set_batch(self.START_LIVING_ROOM_PORT_LED, self.END_LIVING_ROOM_PORT_LED, self.brightness)
             self.set_batch(self.START_LIVING_ROOM_STARBOARD_LED, self.END_LIVING_ROOM_STARBOARD_LED, self.brightness)
             self.lr_on = True
+            self.o_on = True
+
+    def toggle_office_lights(self):
+        if not self.lr_on:
+            if self.o_on:
+                self.set_batch(self.START_OFFICE_LED, self.END_OFFICE_LED, brightness=0)
+                self.o_on = False
+            else:
+                self.set_batch(self.START_OFFICE_LED, self.END_OFFICE_LED, self.brightness)
+                self.o_on = True
 
     def toggle_kitchen_lights(self):
         if self.k_on:
@@ -124,6 +139,8 @@ class LightHandler:
         if self.lr_on:
             self.set_batch(self.START_LIVING_ROOM_PORT_LED, self.END_LIVING_ROOM_PORT_LED, self.brightness)
             self.set_batch(self.START_LIVING_ROOM_STARBOARD_LED, self.END_LIVING_ROOM_STARBOARD_LED, self.brightness)
+        if self.o_on:
+            self.set_batch(self.START_OFFICE_LED, self.END_OFFICE_LED, self.brightness)
         if self.k_on:
             self.set_batch(self.START_KITCHEN_PORT_LED, self.END_KITCHEN_PORT_LED, self.brightness)
             self.set_batch(self.START_KITCHEN_STARBOARD_LED, self.END_KITCHEN_STARBOARD_LED, self.brightness)

@@ -36,6 +36,7 @@ def build_response(music_obj, lights_obj, alarm_obj):
     response += music_obj.station.to_bytes(2, 'big')
     response += lights_obj.br_on.to_bytes(2, 'big')
     response += lights_obj.lr_on.to_bytes(2, 'big')
+    response += lights_obj.o_on.to_bytes(2, 'big')
     response += lights_obj.k_on.to_bytes(2, 'big')
     response += lights_obj.ongoing_party.to_bytes(2, 'big')
     response = add_slider(response, lights_obj.brightness)
@@ -90,6 +91,8 @@ def run():
             mh.toggle_spotify()
         elif command == b'kitchen_lights':
             lh.toggle_kitchen_lights()
+        elif command == b'office_lights':
+            lh.toggle_office_lights()
         elif command == b'living_room_lights':
             lh.toggle_living_room_lights()
         elif command == b'bedroom_lights':

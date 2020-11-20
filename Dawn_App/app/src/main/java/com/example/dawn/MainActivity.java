@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     Short radio_station;
     Boolean bl_on;
     Boolean ll_on;
+    Boolean ol_on;
     Boolean kl_on;
     Boolean party_mode;
     Boolean weekday_alarm_on;
@@ -109,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
                 Socket socket = new Socket("192.168.1.214", 12345);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 InputStreamReader in = new InputStreamReader(socket.getInputStream());
-                char[] response = new char[36];
+                char[] response = new char[38];
                 out.println("Request");
-                in.read(response, 0, 36);
+                in.read(response, 0, 38);
                 String string_response = new String(response);
                 processResponse(string_response);
 
@@ -141,15 +142,16 @@ public class MainActivity extends AppCompatActivity {
         radio_station = ByteBuffer.wrap(response.substring(12, 14).getBytes()).getShort();
         bl_on = response.substring(14, 16).equals("\00\01");
         ll_on = response.substring(16, 18).equals("\00\01");
-        kl_on = response.substring(18, 20).equals("\00\01");
-        party_mode = response.substring(20, 22).equals("\00\01");
-        brightness_val = ByteBuffer.wrap(response.substring(22, 24).getBytes()).getShort();
-        weekday_alarm_on = response.substring(24, 26).equals("\00\01");
-        weekday_alarm_hours = ByteBuffer.wrap(response.substring(26, 28).getBytes()).getShort();
-        weekday_alarm_minutes = ByteBuffer.wrap(response.substring(28, 30).getBytes()).getShort();
-        weekend_alarm_on = response.substring(30, 32).equals("\00\01");
-        weekend_alarm_hours = ByteBuffer.wrap(response.substring(32, 34).getBytes()).getShort();
-        weekend_alarm_minutes = ByteBuffer.wrap(response.substring(34, 36).getBytes()).getShort();
+        ol_on = response.substring(18, 20).equals("\00\01");
+        kl_on = response.substring(20, 22).equals("\00\01");
+        party_mode = response.substring(22, 24).equals("\00\01");
+        brightness_val = ByteBuffer.wrap(response.substring(24, 26).getBytes()).getShort();
+        weekday_alarm_on = response.substring(26, 28).equals("\00\01");
+        weekday_alarm_hours = ByteBuffer.wrap(response.substring(28, 30).getBytes()).getShort();
+        weekday_alarm_minutes = ByteBuffer.wrap(response.substring(30, 32).getBytes()).getShort();
+        weekend_alarm_on = response.substring(32, 34).equals("\00\01");
+        weekend_alarm_hours = ByteBuffer.wrap(response.substring(34, 36).getBytes()).getShort();
+        weekend_alarm_minutes = ByteBuffer.wrap(response.substring(36, 38).getBytes()).getShort();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -171,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
 
         SwitchCompat ll = findViewById(R.id.lrl);
         ll.setChecked(ll_on);
+
+        SwitchCompat ol = findViewById(R.id.ol);
+        ol.setChecked(ol_on);
 
         SwitchCompat kl = findViewById(R.id.kl);
         kl.setChecked(kl_on);
@@ -230,9 +235,9 @@ public class MainActivity extends AppCompatActivity {
             Socket socket = new Socket("192.168.1.214", 12345);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             InputStreamReader in = new InputStreamReader(socket.getInputStream());
-            char[] response = new char[36];
+            char[] response = new char[38];
             out.println(s);
-            in.read(response, 0, 36);
+            in.read(response, 0, 38);
             String string_response = new String(response);
             processResponse(string_response);
             return true;
@@ -297,8 +302,8 @@ public class MainActivity extends AppCompatActivity {
         setSwitches();
     }
 
-    public void kitchenLights(View view) {
-        sendMessage("kitchen_lights");
+    public void bedroomLights(View view) {
+        sendMessage("bedroom_lights");
         setSwitches();
     }
 
@@ -307,8 +312,13 @@ public class MainActivity extends AppCompatActivity {
         setSwitches();
     }
 
-    public void bedroomLights(View view) {
-        sendMessage("bedroom_lights");
+    public void officeLights(View view) {
+        sendMessage("office_lights");
+        setSwitches();
+    }
+
+    public void kitchenLights(View view) {
+        sendMessage("kitchen_lights");
         setSwitches();
     }
 

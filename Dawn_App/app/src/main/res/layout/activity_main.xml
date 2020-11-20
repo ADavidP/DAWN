@@ -97,22 +97,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lrsound" />
 
-    <android.support.v7.widget.SwitchCompat
-        android:theme="@style/AppTheme"
-        android:id="@+id/kl"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:gravity="start"
-        android:onClick="kitchenLights"
-        android:text="Kitchen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lrl" />
-
     <TextView
         android:id="@+id/Lights"
         android:layout_width="wrap_content"
@@ -159,6 +143,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brl" />
+
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
+        android:id="@+id/ol"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="start"
+        android:onClick="officeLights"
+        android:text="Office"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lrl" />
+
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
+        android:id="@+id/kl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="start"
+        android:onClick="kitchenLights"
+        android:text="Kitchen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ol" />
 
     <android.support.v7.widget.SwitchCompat
         android:theme="@style/AppTheme"
