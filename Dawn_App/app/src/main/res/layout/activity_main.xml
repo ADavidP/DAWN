@@ -16,7 +16,8 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
         android:id="@+id/stereo_switch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -31,7 +32,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.0"/>
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
         android:id="@+id/lrsound"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -44,7 +46,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brsound" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
         android:id="@+id/brsound"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -57,7 +60,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stereo_switch" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
         android:id="@+id/spotify"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -70,7 +74,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lrsound" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
         android:id="@+id/kl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -84,7 +89,8 @@
         app:layout_constraintTop_toBottomOf="@+id/lrl" />
 
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
         android:id="@+id/brl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -98,7 +104,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/triplej" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
         android:id="@+id/lrl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -111,7 +118,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brl" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
+        android:theme="@style/AppTheme"
         android:id="@+id/pm"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -255,12 +263,13 @@
         app:layout_constraintTop_toBottomOf="@+id/spotify"
         app:srcCompat="@drawable/bbc_icon" />
 
-    <SeekBar
+    <android.support.v7.widget.AppCompatSeekBar
         android:id="@+id/brightness"
         android:layout_width="355dp"
         android:layout_marginTop="8dp"
         android:layout_height="16dp"
         android:max="63"
+        android:theme="@style/AppTheme"
         app:layout_constraintTop_toBottomOf="@+id/SS_Time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

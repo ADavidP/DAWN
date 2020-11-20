@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -153,28 +154,28 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void setSwitches () {
-        Switch stereo_switch = findViewById(R.id.stereo_switch);
+        SwitchCompat stereo_switch = findViewById(R.id.stereo_switch);
         stereo_switch.setChecked(stereo_on);
 
-        Switch bs = findViewById(R.id.brsound);
+        SwitchCompat bs = findViewById(R.id.brsound);
         bs.setChecked(bs_on);
 
-        Switch ls = findViewById(R.id.lrsound);
+        SwitchCompat ls = findViewById(R.id.lrsound);
         ls.setChecked(ls_on);
 
-        Switch spotify = findViewById(R.id.spotify);
+        SwitchCompat spotify = findViewById(R.id.spotify);
         spotify.setChecked(sc_on);
 
-        Switch bl = findViewById(R.id.brl);
+        SwitchCompat bl = findViewById(R.id.brl);
         bl.setChecked(bl_on);
 
-        Switch ll = findViewById(R.id.lrl);
+        SwitchCompat ll = findViewById(R.id.lrl);
         ll.setChecked(ll_on);
 
-        Switch kl = findViewById(R.id.kl);
+        SwitchCompat kl = findViewById(R.id.kl);
         kl.setChecked(kl_on);
 
-        Switch pm = findViewById(R.id.pm);
+        SwitchCompat pm = findViewById(R.id.pm);
         pm.setChecked(party_mode);
 
         ImageView[] stations = {
