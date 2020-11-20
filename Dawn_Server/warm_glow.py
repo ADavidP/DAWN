@@ -1,5 +1,6 @@
 import threading
 import time
+import random
 import board
 import neopixel
 import RPi.GPIO as GPIO
@@ -163,33 +164,59 @@ class LightHandler:
         self.k_on = False
 
     def party_mode(self):
-        def rainbow_cycle():
-            def wheel(pos):
-                # Input a value 0 to 255 to get a color value.
-                # The colours are a transition r - g - b - back to r.
-                if pos < 0 or pos > 255:
-                    r = g = b = 0
-                elif pos < 85:
-                    r = int(pos * 3)
-                    g = int(255 - pos * 3)
-                    b = 0
-                elif pos < 170:
-                    pos -= 85
-                    r = int(255 - pos * 3)
-                    g = 0
-                    b = int(pos * 3)
-                else:
-                    pos -= 170
-                    r = 0
-                    g = int(pos * 3)
-                    b = int(255 - pos * 3)
-                return r, g, b
+        def wheel(pos):
+            # Input a value 0 to 255 to get a color value.
+            # The colours are a transition r - g - b - back to r.
+            if pos < 0 or pos > 255:
+                r = g = b = 0
+            elif pos < 85:
+                r = int(pos * 3)
+                g = int(255 - pos * 3)
+                b = 0
+            elif pos < 170:
+                pos -= 85
+                r = int(255 - pos * 3)
+                g = 0
+                b = int(pos * 3)
+            else:
+                pos -= 170
+                r = 0
+                g = int(pos * 3)
+                b = int(255 - pos * 3)
+            return r, g, b
 
-            while True:
-                for j in range(255):
-                    for i in range(self.NUM_PIXELS):
-                        pixel_index = (i * 256 // self.NUM_PIXELS) + j
-                        self.pixels[i] = wheel(pixel_index & 255)
+        def rainbow_chase():
+            for i in range(255):
+                for j in range(self.NUM_PIXELS):
+                    if i % 3 == j % 3:
+                        self.pixels[j] = wheel(i)
+                    else:
+                        self.pixels[j] = (0, 0, 0)
+                self.pixels.show()
+                for k in range(50):
+                    time.sleep(0.001)
+                    if not self.ongoing_party:
+                        return
+
+        def rainbow_chase_reverse():
+            for i in range(255):
+                for j in range(self.NUM_PIXELS):
+                    if (3 - i) % 3 == j % 3:
+                        self.pixels[j] = wheel(i)
+                    else:
+                        self.pixels[j] = (0, 0, 0)
+                self.pixels.show()
+                for k in range(50):
+                    time.sleep(0.001)
+                    if not self.ongoing_party:
+                        return
+
+        def rainbow_cycle():
+            for k in range(50):
+                for i in range(255):
+                    for j in range(self.NUM_PIXELS):
+                        pixel_index = i + (j * 256 // self.NUM_PIXELS)
+                        self.pixels[j] = wheel(pixel_index & 255)
                     self.pixels.show()
                     time.sleep(0.001)
                     if not self.ongoing_party:
@@ -204,7 +231,12 @@ class LightHandler:
             self.enable_lights_relay()
             time.sleep(0.002)
 
-        rainbow_cycle()
+        party_directives = [rainbow_chase, rainbow_chase_reverse, rainbow_cycle]
+
+        while self.ongoing_party:
+            # for pd in party_directives:
+            #     pd()
+            random.choice(party_directives)()
 
         for i in range(0, self.NUM_PIXELS):
             self.pixels[i] = (0, 0, 0)
