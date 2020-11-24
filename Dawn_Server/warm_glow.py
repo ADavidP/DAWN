@@ -1,6 +1,7 @@
 import threading
 import time
-import random
+
+from numpy.random import choice
 import board
 import neopixel
 import RPi.GPIO as GPIO
@@ -161,6 +162,7 @@ class LightHandler:
         self.set_batch(0, self.NUM_PIXELS, brightness=0)
         self.br_on = False
         self.lr_on = False
+        self.o_on = False
         self.k_on = False
 
     def party_mode(self):
@@ -212,7 +214,7 @@ class LightHandler:
                         return
 
         def rainbow_cycle():
-            for k in range(50):
+            for k in range(4):
                 for i in range(255):
                     for j in range(self.NUM_PIXELS):
                         pixel_index = i + (j * 256 // self.NUM_PIXELS)
@@ -221,6 +223,21 @@ class LightHandler:
                     time.sleep(0.001)
                     if not self.ongoing_party:
                         return
+
+        def strobe():
+            for i in range(180):
+                for j in range(self.NUM_PIXELS):
+                    self.pixels[j] = (255, 255, 255)
+                    if not self.ongoing_party:
+                        return
+                self.pixels.show()
+                time.sleep(0.001)
+                for j in range(self.NUM_PIXELS):
+                    self.pixels[j] = (0, 0, 0)
+                    if not self.ongoing_party:
+                        return
+                self.pixels.show()
+                time.sleep(0.003)
 
         for i in range(0, self.NUM_PIXELS):
             self.pixels[i] = (0, 0, 0)
@@ -231,12 +248,13 @@ class LightHandler:
             self.enable_lights_relay()
             time.sleep(0.002)
 
-        party_directives = [rainbow_chase, rainbow_chase_reverse, rainbow_cycle]
+        party_directives = [strobe, rainbow_chase, rainbow_chase_reverse, rainbow_cycle]
+        weights = [0.1, 0.3, 0.3, 0.3]
 
         while self.ongoing_party:
             # for pd in party_directives:
             #     pd()
-            random.choice(party_directives)()
+            choice(party_directives, p=weights)()
 
         for i in range(0, self.NUM_PIXELS):
             self.pixels[i] = (0, 0, 0)
