@@ -101,6 +101,8 @@ def run():
             lh.toggle_party()
         elif str(command, 'utf-8').split('#')[0] == 'BRIGHTNESS':
             lh.set_brightness(float((str(command, 'utf-8').split('#')[1]))/63.0)
+        elif str(command, 'utf-8').split('#')[0] == 'VOLUME':
+            mh.set_volume(float((str(command, 'utf-8').split('#')[1]))/6.0)
         elif str(command, 'utf-8').split('#')[0] == 'ALARM':
             alarm_watcher.set_alarm(str(command, 'utf-8'))
         elif str(command, 'utf-8').split('#')[0] == 'CLEAR':
