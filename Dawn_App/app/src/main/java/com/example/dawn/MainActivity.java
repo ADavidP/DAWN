@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     TimePickerDialog timePickerDialog;
     SeekBar brightnessSeekbar;
+    SeekBar volumeSeekbar;
 
     Boolean stereo_on;
     Boolean bs_on;
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean sc_on;
     Boolean rc_on;
     Short radio_volume;
-    Short radio_station;
+    Short radio_station = 0;
     Boolean bl_on;
     Boolean ll_on;
     Boolean ol_on;
@@ -72,7 +74,22 @@ public class MainActivity extends AppCompatActivity {
         brightnessSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                setBrightness (i, b);
+                if (b) {setBrightness (i);};
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        volumeSeekbar = findViewById(R.id.volume);
+
+        volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if (b) {setVolume (i);};
             }
 
             @Override
@@ -195,6 +212,10 @@ public class MainActivity extends AppCompatActivity {
         SeekBar brightness = findViewById(R.id.brightness);
         brightness.setMax(63);
         brightness.setProgress(brightness_val);
+
+        SeekBar volume = findViewById(R.id.volume);
+        volume.setMax(6);
+        volume.setProgress(radio_volume);
 
         for (short i = 0; i < stations.length; i++) {
             if (radio_station == i + 1) {
@@ -389,12 +410,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setBrightness(int brightness, boolean from_user) {
-        if (from_user){
-            String new_brightness = "BRIGHTNESS#" + brightness;
-            if (sendMessage(new_brightness)){
-                setSwitches();
+    public void setBrightness(int brightness) {
+        String new_brightness = "BRIGHTNESS#" + brightness;
+        if (sendMessage(new_brightness)){
+            setSwitches();
+        }
+    }
+
+    public void setVolume(int volume) {
+        String new_volume = "VOLUME#" + volume;
+        if (sendMessage(new_volume)){
+            setSwitches();
+        }
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event){
+        int keyCode = event.getKeyCode();
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            // Spotify uses android in-built so only need to check if using radio
+            if (radio_station > 0){
+                int new_volume;
+                if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+                    new_volume = radio_volume + 1;
+                    if (new_volume <= 6){
+                        setVolume(new_volume);
+                    }
+                }
+
+                else {
+                    new_volume = radio_volume - 1;
+                    if (new_volume >= 0){
+                        setVolume(new_volume);
+                    }
+                }
+                return true;
+
             }
+            else {
+                return super.dispatchKeyEvent(event);
+            }
+        }
+        else {
+            return super.dispatchKeyEvent(event);
         }
     }
 
