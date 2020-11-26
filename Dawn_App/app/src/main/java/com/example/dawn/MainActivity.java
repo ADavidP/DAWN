@@ -427,7 +427,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event){
         int keyCode = event.getKeyCode();
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+        if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)){
             // Spotify uses android in-built so only need to check if using radio
             if (radio_station > 0){
                 int new_volume;
