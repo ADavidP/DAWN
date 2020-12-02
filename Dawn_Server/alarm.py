@@ -59,4 +59,3 @@ class AlarmWatch:
                 self.music_handler.volume_up()
             if self.light_handler.br_on or i == 0 or self.music_handler.is_thing_on('radio'):
                 time.sleep(60)
-        self.music_handler.set_volume(6)
