@@ -1,7 +1,7 @@
 import time
 import datetime
 from music_handler import MusicHandler
-from warm_glow import LightHandler
+from light_handler import LightHandler
 
 
 class AlarmWatch:

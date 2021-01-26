@@ -2,7 +2,7 @@ import threading
 
 import socket
 import music_handler
-import warm_glow
+import light_handler
 import alarm
 import watcher
 import RPi.GPIO as GPIO
@@ -50,7 +50,7 @@ def run():
     GPIO.setmode(GPIO.BCM)
 
     mh = music_handler.MusicHandler()
-    lh = warm_glow.LightHandler()
+    lh = light_handler.LightHandler()
 
     alarm_watcher = alarm.AlarmWatch(mh, lh)
     alarm_checker = threading.Thread(target=alarm_watcher.alarm_watch)

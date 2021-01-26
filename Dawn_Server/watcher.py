@@ -3,7 +3,7 @@ import time
 import threading
 import RPi.GPIO as GPIO
 from music_handler import MusicHandler
-from warm_glow import LightHandler
+from light_handler import LightHandler
 
 RECOGNISED_PHONE_IPS = ['192.168.1.213',  # Parsons Fairphone
                         '192.168.1.130']  # Sophs Fairphone

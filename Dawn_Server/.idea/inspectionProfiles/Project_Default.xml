@@ -8,6 +8,7 @@
           <option value="board" />
           <option value="warm_glow.RPi" />
           <option value="server.RPi" />
+          <option value="warm_glow.numpy" />
         </list>
       </option>
     </inspection_tool>
