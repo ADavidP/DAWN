@@ -243,6 +243,7 @@ class LightHandler:
             self.pixels[i] = (0, 0, 0)
         self.br_on = False
         self.lr_on = False
+        self.o_on = False
         self.k_on = False
         if not self.relays_on:
             self.enable_lights_relay()
