@@ -48,12 +48,13 @@ class LightHandler:
 
     # PRESET COLOURS
     RED = (0, 0, 255)
-    PURPLE = (255, 0 , 255)
-    BLUE = (255, 0, 255)
+    PURPLE = (255, 0, 255)
+    BLUE = (255, 0, 0)
     GREEN = (0, 255, 0)
     YELLOW = (0, 255, 255)
     ORANGE = (0, 165, 255)
     PRESET_COLOURS = (RED, PURPLE, BLUE, GREEN, YELLOW, ORANGE)
+    REVERSED_COLOURS = tuple(reversed(PRESET_COLOURS))
 
     # Lower brightness value changes are more perceivable. Interpolated modified sin function used
     # to get slower 'glow up'
@@ -218,6 +219,26 @@ class LightHandler:
                     time.sleep(0.001)
                     if not self.ongoing_party:
                         return
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
+
+        def subdued_rainbow_chase():
+            colours = random.choice([self.PRESET_COLOURS, self.REVERSED_COLOURS])
+            for i in range(50):
+                for j in range(self.NUM_PIXELS):
+                    if i % 10 == j % 10:
+                        self.pixels[j] = tuple((round(0.5 * pigment) for pigment in colours[i % len(colours)]))
+                    else:
+                        self.pixels[j] = (0, 0, 0)
+                self.pixels.show()
+                for k in range(75):
+                    time.sleep(0.01)
+                    if not self.ongoing_party:
+                        return
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
 
         def rainbow_chase_reverse():
             for i in range(255):
@@ -233,6 +254,24 @@ class LightHandler:
                         return
             for i in range(0, self.NUM_PIXELS):
                 self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
+
+        def subdued_rainbow_chase_reverse():
+            colours = random.choice([self.PRESET_COLOURS, self.REVERSED_COLOURS])
+            for i in range(50):
+                for j in range(self.NUM_PIXELS):
+                    if (10 - i) % 10 == j % 10:
+                        self.pixels[j] = tuple((round(0.5 * pigment) for pigment in colours[i % len(colours)]))
+                    else:
+                        self.pixels[j] = (0, 0, 0)
+                self.pixels.show()
+                for k in range(75):
+                    time.sleep(0.01)
+                    if not self.ongoing_party:
+                        return
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
 
         def rainbow_cycle():
             for k in range(4):
@@ -246,6 +285,7 @@ class LightHandler:
                         return
             for i in range(0, self.NUM_PIXELS):
                 self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
 
         def new_random_colour():
             colour = random.choice(self.PRESET_COLOURS)
@@ -342,10 +382,9 @@ class LightHandler:
             self.enable_lights_relay()
             time.sleep(0.002)
 
-        party_directives = [subdued_glow, slow_burst, quick_burst, rainbow_chase,
-                            rainbow_chase_reverse, rainbow_cycle, strobe]
-        # weights = [0.5, 0.5, 0, 0, 0, 0, 0]
-        weights = [0.275, 0.225, 0.15, 0.125, 0.125, 0.09, 0.01]
+        party_directives = [subdued_glow, slow_burst, subdued_rainbow_chase, subdued_rainbow_chase_reverse, quick_burst,
+                            rainbow_chase, rainbow_chase_reverse, rainbow_cycle, strobe]
+        weights = [0.32, 0.32, 0.075, 0.075, 0.185, 0.0025, 0.0025, 0.019, 0.001]
 
         while self.ongoing_party:
             # for pd in party_directives:
