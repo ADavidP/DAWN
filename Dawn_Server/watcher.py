@@ -21,13 +21,13 @@ class PhoneWatch:
         self.is_anyone_home = True
 
     def returned_home(self):
-        for i in range(60):
+        for i in range(300):
             if GPIO.input(SENSOR):
                 self.light_handler.toggle_kitchen_lights()
                 self.light_handler.set_brightness(1)
                 break
             else:
-                time.sleep(10)
+                time.sleep(2)
 
     def watch(self):
         while True:
