@@ -9,8 +9,20 @@ class AlarmWatch:
     music_handler = ...  # type: MusicHandler
 
     def __init__(self, music_handler, light_handler):
-        self.weekday_alarm_time = None
-        self.weekend_alarm_time = None
+        with open("/home/pi/Dawn_Server/alarm_times.txt", 'r') as alarm_times:
+            raw_weekday = alarm_times.readline()[:-1]
+            raw_weekend = alarm_times.readline()[:-1]
+        if raw_weekday == 'XX:XX':
+            self.weekday_alarm_time = None
+        else:
+            alarm_time = [int(a) for a in raw_weekday.split(':')]
+            self.weekday_alarm_time = datetime.time(*alarm_time)
+        if raw_weekend == 'XX:XX':
+            self.weekend_alarm_time = None
+        else:
+            alarm_time = [int(a) for a in raw_weekend.split(':')]
+            self.weekend_alarm_time = datetime.time(*alarm_time)
+
         self.music_handler = music_handler
         self.light_handler = light_handler
 
@@ -21,6 +33,7 @@ class AlarmWatch:
             self.weekday_alarm_time = datetime.time(*alarm_time)
         elif alarm_type == 'SS':
             self.weekend_alarm_time = datetime.time(*alarm_time)
+        self.store_alarms()
 
     def clear_alarm(self, alarm_string):
         alarm_type = alarm_string.split('#')[1]
@@ -28,6 +41,21 @@ class AlarmWatch:
             self.weekday_alarm_time = None
         elif alarm_type == 'SS':
             self.weekend_alarm_time = None
+        self.store_alarms()
+
+    def store_alarms(self):
+        with open("/home/pi/Dawn_Server/alarm_times.txt", 'w') as alarm_times:
+            if self.weekday_alarm_time is None:
+                alarm_times.write("XX:XX")
+            else:
+                alarm_times.write(self.weekday_alarm_time.isoformat()[:-3])
+            alarm_times.write("\n")
+
+            if self.weekend_alarm_time is None:
+                alarm_times.write("XX:XX")
+            else:
+                alarm_times.write(self.weekend_alarm_time.isoformat()[:-3])
+            alarm_times.write("\n")
 
     def alarm_watch(self):
         while True:
