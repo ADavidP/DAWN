@@ -1,5 +1,6 @@
 import threading
 import time
+import random
 
 from numpy.random import choice
 import board
@@ -21,7 +22,8 @@ class LightHandler:
 
     # Choose an open pin connected to the Data In of the NeoPixel strip.
     PIXEL_PIN = board.D21
-    NUM_PIXELS = STARBOARD_CABIN_LEDS + STERN_LEDS + PORT_CABIN_LEDS + STARBOARD_BR_LEDS + BOW_LEDS + PORT_BR_LEDS
+    NUM_PIXELS = (STARBOARD_CABIN_LEDS + STERN_LEDS + PORT_CABIN_LEDS +
+                  STARBOARD_BR_LEDS + BOW_LEDS + PORT_BR_LEDS)  # 383
 
     # The order of the pixel colors - although actual order is BGR.
     ORDER = neopixel.RGB
@@ -44,6 +46,22 @@ class LightHandler:
     START_BEDROOM_PORT_LED = END_BEDROOM_STARBOARD_LED + BOW_LEDS
     END_BEDROOM_PORT_LED = NUM_PIXELS
 
+    # PRESET COLOURS
+    RED = (0, 0, 255)
+    PURPLE = (255, 0, 255)
+    BLUE = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    YELLOW = (0, 255, 255)
+    ORANGE = (0, 165, 255)
+    PRESET_COLOURS = (RED, PURPLE, BLUE, GREEN, YELLOW, ORANGE)
+    REVERSED_COLOURS = tuple(reversed(PRESET_COLOURS))
+
+    # Lower brightness value changes are more perceivable. Interpolated modified sin function used
+    # to get slower 'glow up'
+    GLOW_SCALE = [0, 0, 1, 1, 2, 3, 5, 6, 8, 10, 12, 15, 18, 21, 24, 27, 31, 35, 39, 43, 47, 52, 57, 62, 67, 72, 78, 84,
+                  90, 96, 102, 108, 115, 121, 128, 135, 142, 149, 156, 163, 171, 178, 185, 193, 201, 208, 216, 224, 232,
+                  239, 247, 255]
+
     def __init__(self):
         self.relays_on = False
         self.setup_gpio()
@@ -60,6 +78,8 @@ class LightHandler:
         self.ongoing_party = False
 
         self.party_time = None
+
+        self.previous_colour = None
 
     @staticmethod
     def setup_gpio():
@@ -199,6 +219,26 @@ class LightHandler:
                     time.sleep(0.001)
                     if not self.ongoing_party:
                         return
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
+
+        def subdued_rainbow_chase():
+            colours = random.choice([self.PRESET_COLOURS, self.REVERSED_COLOURS])
+            for i in range(50):
+                for j in range(self.NUM_PIXELS):
+                    if i % 10 == j % 10:
+                        self.pixels[j] = tuple((round(0.5 * pigment) for pigment in colours[i % len(colours)]))
+                    else:
+                        self.pixels[j] = (0, 0, 0)
+                self.pixels.show()
+                for k in range(75):
+                    time.sleep(0.01)
+                    if not self.ongoing_party:
+                        return
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
 
         def rainbow_chase_reverse():
             for i in range(255):
@@ -212,6 +252,26 @@ class LightHandler:
                     time.sleep(0.001)
                     if not self.ongoing_party:
                         return
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
+
+        def subdued_rainbow_chase_reverse():
+            colours = random.choice([self.PRESET_COLOURS, self.REVERSED_COLOURS])
+            for i in range(50):
+                for j in range(self.NUM_PIXELS):
+                    if (10 - i) % 10 == j % 10:
+                        self.pixels[j] = tuple((round(0.5 * pigment) for pigment in colours[i % len(colours)]))
+                    else:
+                        self.pixels[j] = (0, 0, 0)
+                self.pixels.show()
+                for k in range(75):
+                    time.sleep(0.01)
+                    if not self.ongoing_party:
+                        return
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
 
         def rainbow_cycle():
             for k in range(4):
@@ -223,6 +283,79 @@ class LightHandler:
                     time.sleep(0.001)
                     if not self.ongoing_party:
                         return
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
+
+        def new_random_colour():
+            colour = random.choice(self.PRESET_COLOURS)
+            while colour == self.previous_colour:
+                colour = random.choice(self.PRESET_COLOURS)
+            self.previous_colour = colour
+            return colour
+
+        def subdued_glow():
+            colour = new_random_colour()
+            pixels_to_show = []
+            for i in range(random.randint(0, 12), self.NUM_PIXELS, 15):
+                cluster_end = i + 3 if i + 3 <= self.NUM_PIXELS else self.NUM_PIXELS
+                for j in range(i, cluster_end):
+                    pixels_to_show.append(j)
+
+            for i in self.GLOW_SCALE:
+                pixel_setting = tuple((round((i / 255) * pigment) for pigment in colour))
+                for pixel in pixels_to_show:
+                    self.pixels[pixel] = pixel_setting
+                self.pixels.show()
+                time.sleep(0.1)
+                if not self.ongoing_party:
+                    return
+            for i in reversed(self.GLOW_SCALE):
+                pixel_setting = tuple((round((i / 255) * pigment) for pigment in colour))
+                for pixel in pixels_to_show:
+                    self.pixels[pixel] = pixel_setting
+                self.pixels.show()
+                time.sleep(0.1)
+                if not self.ongoing_party:
+                    return
+
+        def burst(sleep_time):
+            if sleep_time < 0.1:
+                repeats = 5
+            else:
+                repeats = 1
+            for r in range(repeats):
+                colour = new_random_colour()
+                for _ in range(5):
+                    rand_ints = [random.randint(self.START_BEDROOM_STARBOARD_LED + 13, self.NUM_PIXELS - 13)]
+                    first_lr_seed = random.randint(13, self.END_LIVING_ROOM_STARBOARD_LED - 13)
+                    rand_ints.append(first_lr_seed)
+                    second_lr_seed = random.randint(13, self.END_LIVING_ROOM_STARBOARD_LED - 13)
+                    while first_lr_seed - 13 < second_lr_seed < first_lr_seed + 13:
+                        second_lr_seed = random.randint(13, self.END_LIVING_ROOM_STARBOARD_LED - 13)
+                    rand_ints.append(second_lr_seed)
+                    for i in range(0, len(self.GLOW_SCALE) + 13):
+                        for seed_pixel in rand_ints:
+                            affected_pixels = range(seed_pixel - 13, seed_pixel + 13)
+                            for j in affected_pixels:
+                                distance_from_seed = abs(j - seed_pixel)
+                                if 0 <= i - distance_from_seed < len(self.GLOW_SCALE) - 1:
+                                    self.pixels[j % self.NUM_PIXELS] = (
+                                        tuple((round((self.GLOW_SCALE[i - distance_from_seed] / 255) * pigment)
+                                               for pigment in colour))
+                                    )
+                                else:
+                                    self.pixels[j % self.NUM_PIXELS] = (0, 0, 0)
+                        self.pixels.show()
+                        time.sleep(sleep_time)
+                        if not self.ongoing_party:
+                            return
+
+        def quick_burst():
+            return burst(0.001)
+
+        def slow_burst():
+            return burst(0.15)
 
         def strobe():
             for i in range(180):
@@ -249,8 +382,9 @@ class LightHandler:
             self.enable_lights_relay()
             time.sleep(0.002)
 
-        party_directives = [strobe, rainbow_chase, rainbow_chase_reverse, rainbow_cycle]
-        weights = [0.1, 0.3, 0.3, 0.3]
+        party_directives = [subdued_glow, slow_burst, subdued_rainbow_chase, subdued_rainbow_chase_reverse, quick_burst,
+                            rainbow_chase, rainbow_chase_reverse, rainbow_cycle, strobe]
+        weights = [0.32, 0.32, 0.075, 0.075, 0.185, 0.0025, 0.0025, 0.019, 0.001]
 
         while self.ongoing_party:
             # for pd in party_directives:
