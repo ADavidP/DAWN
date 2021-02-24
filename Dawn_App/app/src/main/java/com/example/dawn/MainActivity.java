@@ -1,8 +1,10 @@
 package com.example.dawn;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -408,6 +410,25 @@ public class MainActivity extends AppCompatActivity {
             Toast alarmCancelToast = Toast.makeText(toastContext, toastText, toastDuration);
             alarmCancelToast.show();
         }
+    }
+
+    public void resetRouter(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Reset router?")
+                .setTitle("Warning")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        sendMessage("reset_router");
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // CANCEL
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create();
+        builder.show();
     }
 
     public void setBrightness(int brightness) {

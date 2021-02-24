@@ -3,6 +3,7 @@ import threading
 import socket
 import music_handler
 import light_handler
+import router_handler
 import alarm
 import watcher
 import RPi.GPIO as GPIO
@@ -51,6 +52,7 @@ def run():
 
     mh = music_handler.MusicHandler()
     lh = light_handler.LightHandler()
+    rh = router_handler.RouterHandler()
 
     alarm_watcher = alarm.AlarmWatch(mh, lh)
     alarm_checker = threading.Thread(target=alarm_watcher.alarm_watch)
@@ -99,6 +101,8 @@ def run():
             lh.toggle_bedroom_lights()
         elif command == b'party_mode':
             lh.toggle_party()
+        elif command == b'reset_router':
+            rh.reset_router()
         elif str(command, 'utf-8').split('#')[0] == 'BRIGHTNESS':
             lh.set_brightness(float((str(command, 'utf-8').split('#')[1]))/63.0)
         elif str(command, 'utf-8').split('#')[0] == 'VOLUME':
