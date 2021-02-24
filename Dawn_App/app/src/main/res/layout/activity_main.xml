@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -193,7 +197,7 @@
         app:layout_constraintTop_toBottomOf="@+id/kl" />
 
     <Button
-        android:id="@+id/etChooseTimeMF"
+        android:id="@+id/ChooseTimeMF"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
         android:layout_marginLeft="8dp"
@@ -224,7 +228,7 @@
         app:layout_constraintTop_toBottomOf="@+id/Alarms" />
 
     <Button
-        android:id="@+id/etChooseTimeSS"
+        android:id="@+id/ChooseTimeSS"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
         android:layout_marginLeft="8dp"
@@ -232,7 +236,7 @@
         android:onClick="setSSAlarm"
         android:text="Weekend Alarm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etChooseTimeMF" />
+        app:layout_constraintTop_toBottomOf="@+id/ChooseTimeMF" />
 
     <TextView
         android:id="@+id/SS_Time"
@@ -373,7 +377,7 @@
         app:srcCompat="@drawable/ic_d7e439873663de4a6085f538d3ab09df__1_"
         app:layout_constraintTop_toBottomOf="@+id/fip"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -391,5 +395,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/volume_icon"
         app:layout_constraintBottom_toBottomOf="@+id/volume_icon" />
+    
+    <TextView
+        android:id="@+id/Router"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:text="Router"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ChooseTimeSS" />
+
+    <Button
+        android:id="@+id/Reset"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="resetRouter"
+        android:text="Reset"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Router" />
 
 </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
