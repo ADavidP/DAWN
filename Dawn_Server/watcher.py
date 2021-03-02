@@ -44,11 +44,11 @@ class PhoneWatch:
                     self.had_connection_before = True
                 else:
                     if not self.had_connection_before:
-                        self.music_handler.turn_radio_off()
-                        self.light_handler.kill_all()
                         self.is_anyone_home = False
                     self.had_connection_before = False
             else:
+                self.music_handler.turn_radio_off()
+                self.light_handler.kill_all()
                 time.sleep(30)
                 any_phones_found = False
                 for ip in RECOGNISED_PHONE_IPS:
