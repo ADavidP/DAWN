@@ -202,12 +202,12 @@ public class MainActivity extends AppCompatActivity {
         pm.setChecked(party_mode);
 
         ImageView[] stations = {
-                findViewById(R.id.triplej),
-                findViewById(R.id.gaydio),
-                findViewById(R.id.bbc6),
-                findViewById(R.id.fip_electro),
                 findViewById(R.id.fip),
-                findViewById(R.id.folk_forward)
+                findViewById(R.id.fip_electro),
+                findViewById(R.id.triplej),
+                findViewById(R.id.folk_forward),
+                findViewById(R.id.gaydio),
+                findViewById(R.id.bbc6)
         };
 
         SeekBar brightness = findViewById(R.id.brightness);
