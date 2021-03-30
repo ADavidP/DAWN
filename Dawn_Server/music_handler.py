@@ -13,12 +13,12 @@ BEDROOM_STARBOARD = 23
 class MusicHandler:
 
     radio_stations = {
-        b'triplej': 1,
-        b'gaydio': 2,
-        b'bbc6': 3,
-        b'fip_electro': 4,
-        b'fip': 5,
-        b'folk_forward': 6
+        b'fip': 1,
+        b'fip_electro': 2,
+        b'triplej': 3,
+        b'folk_forward': 4,
+        b'gaydio': 5,
+        b'bbc6': 6
     }
 
     def __init__(self):
