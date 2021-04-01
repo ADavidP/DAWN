@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean kl_on;
     Boolean party_mode;
 
+    Boolean new_colour;
     @ColorInt
     Integer colour;
 
@@ -75,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
         StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.getExtras() != null && intent.getExtras().containsKey(COLOUR)){
+            new_colour = true;
+            colour = intent.getIntExtra(MainActivity.COLOUR, R.color.warm_glow);
+        }
+        else {
+            new_colour = false;
+        }
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         brightnessSeekbar = findViewById(R.id.brightness);
@@ -154,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_HOME);
             startActivity(intent);
         }
+        sendColour();
         setSwitches();
     }
 
@@ -362,6 +374,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ColourPicker.class);
         intent.putExtra(COLOUR, colour);
         startActivity(intent);
+    }
+
+    public void sendColour(){
+        if (new_colour) {
+            sendMessage("COLOUR#" + colour);
+            new_colour = false;
+        }
     }
 
     public void setMFAlarm(View view) {

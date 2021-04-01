@@ -14,12 +14,12 @@ import android.widget.SeekBar;
 import com.skydoves.colorpickerview.ColorPickerView;
 import com.skydoves.colorpickerview.listeners.ColorListener;
 
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
 public class ColourPicker extends AppCompatActivity {
 
     @ColorInt
-    Integer initialColour;
-    @ColorInt
-    Integer newColour;
+    Integer currentColour;
 
     ImageView[] colourPalette = {
             findViewById(R.id.red_button),
@@ -37,20 +37,19 @@ public class ColourPicker extends AppCompatActivity {
         setContentView(R.layout.activity_colour_picker);
 
         Intent intent = getIntent();
-        initialColour = intent.getIntExtra(MainActivity.COLOUR, R.color.warm_glow);
-        newColour = initialColour;
+        currentColour = intent.getIntExtra(MainActivity.COLOUR, R.color.warm_glow);
 
-        setSelectedGradient(newColour);
-        setSelectedPalette(newColour);
-        setSliders(newColour);
+        setSelectedGradient(currentColour);
+        setSelectedPalette(currentColour);
+        setSliders(currentColour);
 
         ColorPickerView colourPicker = findViewById(R.id.gradientColourPicker);
         colourPicker.setColorListener(new ColorListener() {
             @Override
             public void onColorSelected(int color, boolean fromUser) {
-                newColour = color;
-                setSelectedPalette(newColour);
-                setSliders(newColour);
+                currentColour = color;
+                setSelectedPalette(currentColour);
+                setSliders(currentColour);
             }
         });
 
@@ -158,45 +157,45 @@ public class ColourPicker extends AppCompatActivity {
     }
 
     public void setRed(View view) {
-        newColour = R.color.red;
-        setSelectedGradient(newColour);
-        setSliders(newColour);
+        currentColour = R.color.red;
+        setSelectedGradient(currentColour);
+        setSliders(currentColour);
     }
 
     public void setOrange(View view){
-        newColour = R.color.orange;
-        setSelectedGradient(newColour);
-        setSliders(newColour);
+        currentColour = R.color.orange;
+        setSelectedGradient(currentColour);
+        setSliders(currentColour);
     }
 
     public void setYellow(View view){
-        newColour = R.color.yellow;
-        setSelectedGradient(newColour);
-        setSliders(newColour);
+        currentColour = R.color.yellow;
+        setSelectedGradient(currentColour);
+        setSliders(currentColour);
     }
 
     public void setDefault(View view){
-        newColour = R.color.warm_glow;
-        setSelectedGradient(newColour);
-        setSliders(newColour);
+        currentColour = R.color.warm_glow;
+        setSelectedGradient(currentColour);
+        setSliders(currentColour);
     }
 
     public void setGreen(View view){
-        newColour = R.color.green;
-        setSelectedGradient(newColour);
-        setSliders(newColour);
+        currentColour = R.color.green;
+        setSelectedGradient(currentColour);
+        setSliders(currentColour);
     }
 
     public void setBlue(View view){
-        newColour = R.color.blue;
-        setSelectedGradient(newColour);
-        setSliders(newColour);
+        currentColour = R.color.blue;
+        setSelectedGradient(currentColour);
+        setSliders(currentColour);
     }
 
     public void setPurple(View view){
-        newColour = R.color.purple;
-        setSelectedGradient(newColour);
-        setSliders(newColour);
+        currentColour = R.color.purple;
+        setSelectedGradient(currentColour);
+        setSliders(currentColour);
     }
 
     public void sliderChange(){
@@ -209,9 +208,22 @@ public class ColourPicker extends AppCompatActivity {
         SeekBar blueSlider = findViewById(R.id.blue_slider);
         Integer blue = blueSlider.getProgress();
 
-        newColour = Color.rgb(red, green, blue);
-        setSelectedGradient(newColour);
-        setSelectedPalette(newColour);
+        currentColour = Color.rgb(red, green, blue);
+        setSelectedGradient(currentColour);
+        setSelectedPalette(currentColour);
+    }
+
+    public void colourCancel (View view){
+        Intent intent = new Intent(this, ColourPicker.class);
+        intent.addFlags (FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+
+    public void colourChoice (View view){
+        Intent intent = new Intent(this, ColourPicker.class);
+        intent.addFlags (FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra(MainActivity.COLOUR, currentColour);
+        startActivity(intent);
     }
 
 }
