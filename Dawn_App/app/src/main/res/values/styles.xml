@@ -10,20 +10,20 @@
 
     <style name="RedTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#FF0000</item>
-        <item name="colorAccent">#FF0000</item>
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorAccent">@color/red</item>
     </style>
 
     <style name="GreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#00FF00</item>
-        <item name="colorAccent">#00FF00</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorAccent">@color/green</item>
     </style>
 
     <style name="BlueTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#0000FF</item>
-        <item name="colorAccent">#0000FF</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorAccent">@color/blue</item>
     </style>
 
 </resources>

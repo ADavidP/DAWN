@@ -10,6 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.StrictMode;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class MainActivity extends AppCompatActivity {
 
+    public static final String COLOUR = "colour";
     TimePickerDialog timePickerDialog;
     SeekBar brightnessSeekbar;
     SeekBar volumeSeekbar;
@@ -54,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     Boolean ol_on;
     Boolean kl_on;
     Boolean party_mode;
+
+    @ColorInt
+    Integer colour;
+
     Boolean weekday_alarm_on;
     Short weekday_alarm_hours;
     Short weekday_alarm_minutes;
@@ -353,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void colourPicker(View view) {
         Intent intent = new Intent(this, ColourPicker.class);
+        intent.putExtra(COLOUR, colour);
         startActivity(intent);
     }
 
