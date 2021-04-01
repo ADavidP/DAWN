@@ -183,12 +183,13 @@ public class MainActivity extends AppCompatActivity {
         kl_on = response.substring(20, 22).equals("\00\01");
         party_mode = response.substring(22, 24).equals("\00\01");
         brightness_val = ByteBuffer.wrap(response.substring(24, 26).getBytes()).getShort();
-        weekday_alarm_on = response.substring(26, 28).equals("\00\01");
-        weekday_alarm_hours = ByteBuffer.wrap(response.substring(28, 30).getBytes()).getShort();
-        weekday_alarm_minutes = ByteBuffer.wrap(response.substring(30, 32).getBytes()).getShort();
-        weekend_alarm_on = response.substring(32, 34).equals("\00\01");
-        weekend_alarm_hours = ByteBuffer.wrap(response.substring(34, 36).getBytes()).getShort();
-        weekend_alarm_minutes = ByteBuffer.wrap(response.substring(36, 38).getBytes()).getShort();
+        colour = ByteBuffer.wrap(response.substring(26, 122).getBytes()).getInt();
+        weekday_alarm_on = response.substring(122, 124).equals("\00\01");
+        weekday_alarm_hours = ByteBuffer.wrap(response.substring(124, 126).getBytes()).getShort();
+        weekday_alarm_minutes = ByteBuffer.wrap(response.substring(126, 128).getBytes()).getShort();
+        weekend_alarm_on = response.substring(128, 130).equals("\00\01");
+        weekend_alarm_hours = ByteBuffer.wrap(response.substring(130, 132).getBytes()).getShort();
+        weekend_alarm_minutes = ByteBuffer.wrap(response.substring(132, 134).getBytes()).getShort();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -378,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendColour(){
         if (new_colour) {
-            sendMessage("COLOUR#" + colour);
+            sendMessage("COLOUR#" + Integer.toHexString(colour));
             new_colour = false;
         }
     }

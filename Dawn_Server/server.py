@@ -12,6 +12,11 @@ import RPi.GPIO as GPIO
 def build_response(music_obj, lights_obj, alarm_obj):
     """Builds response to any message from app"""
 
+    def add_colour(r, colour):
+        for pigment in colour:
+            r += pigment.to_bytes(32, 'big')
+        return r
+
     def add_alarm_time(r, alarm_time):
         """Adds alarm time to response"""
         if alarm_time is None:
@@ -41,6 +46,7 @@ def build_response(music_obj, lights_obj, alarm_obj):
     response += lights_obj.k_on.to_bytes(2, 'big')
     response += lights_obj.ongoing_party.to_bytes(2, 'big')
     response = add_slider(response, lights_obj.brightness)
+    response = add_colour(response, lights_obj.rgb_colour)
     response = add_alarm_time(response, alarm_obj.weekday_alarm_time)
     response = add_alarm_time(response, alarm_obj.weekend_alarm_time)
 
@@ -105,6 +111,8 @@ def run():
             rh.reset_router()
         elif str(command, 'utf-8').split('#')[0] == 'BRIGHTNESS':
             lh.set_brightness(float((str(command, 'utf-8').split('#')[1]))/63.0)
+        elif str(command, 'utf-8').split('#')[0] == 'COLOUR':
+            lh.set_colour(str(command, 'utf-8').split('#')[1])
         elif str(command, 'utf-8').split('#')[0] == 'VOLUME':
             mh.set_volume(int((str(command, 'utf-8').split('#')[1])))
         elif str(command, 'utf-8').split('#')[0] == 'ALARM':
