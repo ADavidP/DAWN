@@ -21,16 +21,6 @@ public class ColourPicker extends AppCompatActivity {
     @ColorInt
     Integer currentColour;
 
-    ImageView[] colourPalette = {
-            findViewById(R.id.red_button),
-            findViewById(R.id.orange_button),
-            findViewById(R.id.yellow_button),
-            findViewById(R.id.default_button),
-            findViewById(R.id.green_button),
-            findViewById(R.id.blue_button),
-            findViewById(R.id.purple_button)
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +97,16 @@ public class ColourPicker extends AppCompatActivity {
     }
 
     private void setSelectedPalette(@ColorInt Integer colour){
+        ImageView[] colourPalette = {
+                findViewById(R.id.red_button),
+                findViewById(R.id.orange_button),
+                findViewById(R.id.yellow_button),
+                findViewById(R.id.default_button),
+                findViewById(R.id.green_button),
+                findViewById(R.id.blue_button),
+                findViewById(R.id.purple_button)
+        };
+
         for (ImageView imageView : colourPalette) {
             imageView.setBackground(null);
         }
