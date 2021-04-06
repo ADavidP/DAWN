@@ -27,7 +27,7 @@ public class ColourPicker extends AppCompatActivity {
         setContentView(R.layout.activity_colour_picker);
 
         Intent intent = getIntent();
-        currentColour = intent.getIntExtra(MainActivity.COLOUR, R.color.warm_glow);
+        currentColour = intent.getIntExtra(MainActivity.COLOUR, getColor(R.color.warm_glow));
 
         setSelectedGradient(currentColour);
         setSelectedPalette(currentColour);
@@ -110,35 +110,40 @@ public class ColourPicker extends AppCompatActivity {
         for (ImageView imageView : colourPalette) {
             imageView.setBackground(null);
         }
-        switch (colour){
-            case R.color.red:
-                findViewById(R.id.red_button).setBackground(
-                        ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
-                break;
-            case R.color.orange:
-                findViewById(R.id.orange_button).setBackground(
-                        ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
-                break;
-            case R.color.yellow:
-                findViewById(R.id.yellow_button).setBackground(
-                        ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
-                break;
-            case R.color.warm_glow:
-                findViewById(R.id.default_button).setBackground(
-                        ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
-                break;
-            case R.color.green:
-                findViewById(R.id.green_button).setBackground(
-                        ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
-                break;
-            case R.color.blue:
-                findViewById(R.id.blue_button).setBackground(
-                        ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
-                break;
-            case R.color.purple:
-                findViewById(R.id.purple_button).setBackground(
-                        ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
-                break;
+        if (colour == getColor(R.color.red))
+        {
+            findViewById(R.id.red_button).setBackground(
+                ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
+        }
+        else if (colour == getColor(R.color.orange))
+        {
+            findViewById(R.id.orange_button).setBackground(
+                    ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
+        }
+        else if (colour == getColor(R.color.yellow))
+        {
+            findViewById(R.id.yellow_button).setBackground(
+                    ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
+        }
+        else if (colour == getColor(R.color.warm_glow))
+        {
+            findViewById(R.id.default_button).setBackground(
+                    ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
+        }
+        else if (colour == getColor(R.color.green))
+        {
+            findViewById(R.id.green_button).setBackground(
+                    ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
+        }
+        else if (colour == getColor(R.color.blue))
+        {
+            findViewById(R.id.blue_button).setBackground(
+                    ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
+        }
+        else if (colour == getColor(R.color.purple))
+        {
+            findViewById(R.id.purple_button).setBackground(
+                    ResourcesCompat.getDrawable(getResources(), R.drawable.border, null));
         }
     }
 
@@ -157,43 +162,43 @@ public class ColourPicker extends AppCompatActivity {
     }
 
     public void setRed(View view) {
-        currentColour = R.color.red;
+        currentColour = getColor(R.color.red);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
     }
 
     public void setOrange(View view){
-        currentColour = R.color.orange;
+        currentColour = getColor(R.color.orange);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
     }
 
     public void setYellow(View view){
-        currentColour = R.color.yellow;
+        currentColour = getColor(R.color.yellow);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
     }
 
     public void setDefault(View view){
-        currentColour = R.color.warm_glow;
+        currentColour = getColor(R.color.warm_glow);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
     }
 
     public void setGreen(View view){
-        currentColour = R.color.green;
+        currentColour = getColor(R.color.green);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
     }
 
     public void setBlue(View view){
-        currentColour = R.color.blue;
+        currentColour = getColor(R.color.blue);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
     }
 
     public void setPurple(View view){
-        currentColour = R.color.purple;
+        currentColour = getColor(R.color.purple);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
     }
