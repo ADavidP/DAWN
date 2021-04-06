@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
                 Socket socket = new Socket("192.168.1.214", 12345);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 InputStreamReader in = new InputStreamReader(socket.getInputStream());
-                char[] response = new char[38];
+                char[] response = new char[134];
                 out.println("Request");
-                in.read(response, 0, 38);
+                in.read(response, 0, 134);
                 String string_response = new String(response);
                 processResponse(string_response);
 
@@ -277,9 +277,9 @@ public class MainActivity extends AppCompatActivity {
             Socket socket = new Socket("192.168.1.214", 12345);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             InputStreamReader in = new InputStreamReader(socket.getInputStream());
-            char[] response = new char[38];
+            char[] response = new char[134];
             out.println(s);
-            in.read(response, 0, 38);
+            in.read(response, 0, 134);
             String string_response = new String(response);
             processResponse(string_response);
             return true;
