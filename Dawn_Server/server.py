@@ -14,7 +14,7 @@ def build_response(music_obj, lights_obj, alarm_obj):
 
     def add_colour(r, colour):
         for pigment in colour:
-            r += pigment.to_bytes(32, 'big')
+            r += pigment.to_bytes(1, 'big')
         return r
 
     def add_alarm_time(r, alarm_time):

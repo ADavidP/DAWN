@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
                 Socket socket = new Socket("192.168.1.214", 12345);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 InputStreamReader in = new InputStreamReader(socket.getInputStream());
-                char[] response = new char[134];
+                char[] response = new char[41];
                 out.println("Request");
-                in.read(response, 0, 134);
+                in.read(response, 0, 41);
                 String string_response = new String(response);
                 processResponse(string_response);
 
@@ -183,13 +183,13 @@ public class MainActivity extends AppCompatActivity {
         kl_on = response.substring(20, 22).equals("\00\01");
         party_mode = response.substring(22, 24).equals("\00\01");
         brightness_val = ByteBuffer.wrap(response.substring(24, 26).getBytes()).getShort();
-        colour = ByteBuffer.wrap(response.substring(26, 122).getBytes()).getInt();
-        weekday_alarm_on = response.substring(122, 124).equals("\00\01");
-        weekday_alarm_hours = ByteBuffer.wrap(response.substring(124, 126).getBytes()).getShort();
-        weekday_alarm_minutes = ByteBuffer.wrap(response.substring(126, 128).getBytes()).getShort();
-        weekend_alarm_on = response.substring(128, 130).equals("\00\01");
-        weekend_alarm_hours = ByteBuffer.wrap(response.substring(130, 132).getBytes()).getShort();
-        weekend_alarm_minutes = ByteBuffer.wrap(response.substring(132, 134).getBytes()).getShort();
+        colour = ByteBuffer.wrap(response.substring(26, 29).getBytes()).getInt();
+        weekday_alarm_on = response.substring(29, 31).equals("\00\01");
+        weekday_alarm_hours = ByteBuffer.wrap(response.substring(31, 33).getBytes()).getShort();
+        weekday_alarm_minutes = ByteBuffer.wrap(response.substring(33, 35).getBytes()).getShort();
+        weekend_alarm_on = response.substring(35, 37).equals("\00\01");
+        weekend_alarm_hours = ByteBuffer.wrap(response.substring(37, 39).getBytes()).getShort();
+        weekend_alarm_minutes = ByteBuffer.wrap(response.substring(39, 41).getBytes()).getShort();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -277,9 +277,9 @@ public class MainActivity extends AppCompatActivity {
             Socket socket = new Socket("192.168.1.214", 12345);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             InputStreamReader in = new InputStreamReader(socket.getInputStream());
-            char[] response = new char[134];
+            char[] response = new char[41];
             out.println(s);
-            in.read(response, 0, 134);
+            in.read(response, 0, 41);
             String string_response = new String(response);
             processResponse(string_response);
             return true;

@@ -219,16 +219,18 @@ public class ColourPicker extends AppCompatActivity {
     }
 
     public void colourCancel (View view){
-        Intent intent = new Intent(this, ColourPicker.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags (FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+        finish();
     }
 
     public void colourChoice (View view){
-        Intent intent = new Intent(this, ColourPicker.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags (FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(MainActivity.COLOUR, currentColour);
         startActivity(intent);
+        finish();
     }
 
 }
