@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -30,10 +31,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @SuppressLint("DefaultLocale")
@@ -49,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     Boolean bs_on;
     Boolean ls_on;
     Boolean sc_on;
-    Boolean rc_on;
     Short radio_volume;
     Short radio_station = 0;
     Boolean bl_on;
@@ -59,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
     Boolean party_mode;
 
     Boolean new_colour;
+
+    Integer red_pigment;
+    Integer green_pigment;
+    Integer blue_pigment;
     @ColorInt
     Integer colour;
 
@@ -80,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null && intent.getExtras().containsKey(COLOUR)){
             new_colour = true;
-            colour = intent.getIntExtra(MainActivity.COLOUR, R.color.warm_glow);
+            colour = intent.getIntExtra(MainActivity.COLOUR, getColor(R.color.warm_glow));
+            red_pigment = Color.red(colour);
+            green_pigment = Color.green(colour);
+            blue_pigment = Color.blue(colour);
         }
         else {
             new_colour = false;
@@ -145,12 +155,11 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Socket socket = new Socket("192.168.1.214", 12345);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                InputStreamReader in = new InputStreamReader(socket.getInputStream());
-                char[] response = new char[41];
+                byte[] response = new byte[82];
+                InputStream in = socket.getInputStream();
                 out.println("Request");
-                in.read(response, 0, 41);
-                String string_response = new String(response);
-                processResponse(string_response);
+                in.read(response, 0, 82);
+                processResponse(response);
 
             } catch (IOException ignored) {
                 // Can't connect so close app
@@ -169,27 +178,28 @@ public class MainActivity extends AppCompatActivity {
         setSwitches();
     }
 
-    private void processResponse (@NonNull String response){
-        stereo_on = response.substring(0, 2).equals("\00\01");
-        bs_on = response.substring(2, 4).equals("\00\01");
-        ls_on = response.substring(4, 6).equals("\00\01");
-        sc_on = response.substring(6, 8).equals("\00\01");
-        rc_on = response.substring(8, 10).equals("\00\01");
-        radio_volume = ByteBuffer.wrap(response.substring(10, 12).getBytes()).getShort();
-        radio_station = ByteBuffer.wrap(response.substring(12, 14).getBytes()).getShort();
-        bl_on = response.substring(14, 16).equals("\00\01");
-        ll_on = response.substring(16, 18).equals("\00\01");
-        ol_on = response.substring(18, 20).equals("\00\01");
-        kl_on = response.substring(20, 22).equals("\00\01");
-        party_mode = response.substring(22, 24).equals("\00\01");
-        brightness_val = ByteBuffer.wrap(response.substring(24, 26).getBytes()).getShort();
-        colour = ByteBuffer.wrap(response.substring(26, 29).getBytes()).getInt();
-        weekday_alarm_on = response.substring(29, 31).equals("\00\01");
-        weekday_alarm_hours = ByteBuffer.wrap(response.substring(31, 33).getBytes()).getShort();
-        weekday_alarm_minutes = ByteBuffer.wrap(response.substring(33, 35).getBytes()).getShort();
-        weekend_alarm_on = response.substring(35, 37).equals("\00\01");
-        weekend_alarm_hours = ByteBuffer.wrap(response.substring(37, 39).getBytes()).getShort();
-        weekend_alarm_minutes = ByteBuffer.wrap(response.substring(39, 41).getBytes()).getShort();
+    private void processResponse (byte [] response) throws UnsupportedEncodingException {
+        stereo_on = Byte.toUnsignedInt(response[0]) == 1;
+        bs_on = Byte.toUnsignedInt(response[1]) == 1;
+        ls_on = Byte.toUnsignedInt(response[2]) == 1;
+        sc_on = Byte.toUnsignedInt(response[3]) == 1;
+        radio_volume = (short) Byte.toUnsignedInt(response[4]);
+        radio_station = (short) Byte.toUnsignedInt(response[5]);
+        bl_on = Byte.toUnsignedInt(response[6]) == 1;
+        ll_on = Byte.toUnsignedInt(response[7]) == 1;
+        ol_on = Byte.toUnsignedInt(response[8]) == 1;
+        kl_on = Byte.toUnsignedInt(response[9]) == 1;
+        party_mode = Byte.toUnsignedInt(response[10]) == 1;
+        brightness_val = (short) Byte.toUnsignedInt(response[11]);
+        red_pigment = Byte.toUnsignedInt(response[12]);
+        green_pigment = Byte.toUnsignedInt(response[13]);
+        blue_pigment = Byte.toUnsignedInt(response[14]);
+        weekday_alarm_on = Byte.toUnsignedInt(response[15]) == 1;
+        weekday_alarm_hours = (short) Byte.toUnsignedInt(response[16]);
+        weekday_alarm_minutes = (short) Byte.toUnsignedInt(response[17]);
+        weekend_alarm_on = Byte.toUnsignedInt(response[18]) == 1;
+        weekend_alarm_hours = (short) Byte.toUnsignedInt(response[19]);
+        weekend_alarm_minutes = (short) Byte.toUnsignedInt(response[20]);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -238,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         volume.setMax(6);
         volume.setProgress(radio_volume);
 
-        for (short i = 0; i < stations.length; i++) {
+        for (int i = 0; i < stations.length; i++) {
             if (radio_station == i + 1) {
                 stations[i].setBackground(getResources().getDrawable(R.drawable.border));
             }
@@ -276,12 +286,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             Socket socket = new Socket("192.168.1.214", 12345);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            InputStreamReader in = new InputStreamReader(socket.getInputStream());
-            char[] response = new char[41];
+            byte[] response = new byte[82];
+            InputStream in = socket.getInputStream();
             out.println(s);
-            in.read(response, 0, 41);
-            String string_response = new String(response);
-            processResponse(string_response);
+            in.read(response, 0, 82);
+            processResponse(response);
             return true;
         }
         catch (IOException ignored){
@@ -372,6 +381,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void colourPicker(View view) {
+        colour = Color.rgb(red_pigment, green_pigment, blue_pigment);
         Intent intent = new Intent(this, ColourPicker.class);
         intent.putExtra(COLOUR, colour);
         startActivity(intent);
