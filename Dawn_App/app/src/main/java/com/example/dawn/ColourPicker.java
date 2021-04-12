@@ -29,17 +29,15 @@ public class ColourPicker extends AppCompatActivity {
         Intent intent = getIntent();
         currentColour = intent.getIntExtra(MainActivity.COLOUR, getColor(R.color.warm_glow));
 
-        setSelectedGradient(currentColour);
-        setSelectedPalette(currentColour);
-        setSliders(currentColour);
-
         ColorPickerView colourPicker = findViewById(R.id.gradientColourPicker);
         colourPicker.setColorListener(new ColorListener() {
             @Override
             public void onColorSelected(int color, boolean fromUser) {
-                currentColour = color;
-                setSelectedPalette(currentColour);
-                setSliders(currentColour);
+                if (fromUser) {
+                    currentColour = color;
+                    setSelectedPalette(currentColour);
+                    setSliders(currentColour);
+                }
             }
         });
 
@@ -84,6 +82,16 @@ public class ColourPicker extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setSelectedPalette(currentColour);
+        setSliders(currentColour);
+        // Setting gradient doesn't work as set to centre by something else after OnResume
+        setSelectedGradient(currentColour);
     }
 
     private void setSelectedGradient(@ColorInt Integer colour){
@@ -165,42 +173,49 @@ public class ColourPicker extends AppCompatActivity {
         currentColour = getColor(R.color.red);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
+        setSelectedPalette(currentColour);
     }
 
     public void setOrange(View view){
         currentColour = getColor(R.color.orange);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
+        setSelectedPalette(currentColour);
     }
 
     public void setYellow(View view){
         currentColour = getColor(R.color.yellow);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
+        setSelectedPalette(currentColour);
     }
 
     public void setDefault(View view){
         currentColour = getColor(R.color.warm_glow);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
+        setSelectedPalette(currentColour);
     }
 
     public void setGreen(View view){
         currentColour = getColor(R.color.green);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
+        setSelectedPalette(currentColour);
     }
 
     public void setBlue(View view){
         currentColour = getColor(R.color.blue);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
+        setSelectedPalette(currentColour);
     }
 
     public void setPurple(View view){
         currentColour = getColor(R.color.purple);
         setSelectedGradient(currentColour);
         setSliders(currentColour);
+        setSelectedPalette(currentColour);
     }
 
     public void sliderChange(){

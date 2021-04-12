@@ -155,10 +155,10 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Socket socket = new Socket("192.168.1.214", 12345);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                byte[] response = new byte[82];
+                byte[] response = new byte[21];
                 InputStream in = socket.getInputStream();
                 out.println("Request");
-                in.read(response, 0, 82);
+                in.read(response, 0, 21);
                 processResponse(response);
 
             } catch (IOException ignored) {
@@ -286,10 +286,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             Socket socket = new Socket("192.168.1.214", 12345);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            byte[] response = new byte[82];
+            byte[] response = new byte[21];
             InputStream in = socket.getInputStream();
             out.println(s);
-            in.read(response, 0, 82);
+            in.read(response, 0, 21);
             processResponse(response);
             return true;
         }
