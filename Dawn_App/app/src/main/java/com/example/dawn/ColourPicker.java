@@ -243,7 +243,7 @@ public class ColourPicker extends AppCompatActivity {
     public void colourChoice (View view){
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags (FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra(MainActivity.COLOUR, currentColour);
+        intent.putExtra(MainActivity.NEW_COLOUR, currentColour);
         startActivity(intent);
         finish();
     }

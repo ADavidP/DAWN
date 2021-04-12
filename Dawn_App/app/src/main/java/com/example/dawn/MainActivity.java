@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     public static final String COLOUR = "colour";
+    public static final String NEW_COLOUR = "new_colour";
     TimePickerDialog timePickerDialog;
     SeekBar brightnessSeekbar;
     SeekBar volumeSeekbar;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean party_mode;
 
     Boolean new_colour;
+    String newColourString;
 
     Integer red_pigment;
     Integer green_pigment;
@@ -85,12 +87,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        if (intent != null && intent.getExtras() != null && intent.getExtras().containsKey(COLOUR)){
+        if (intent != null && intent.getExtras() != null && intent.getExtras().containsKey(NEW_COLOUR)){
             new_colour = true;
-            colour = intent.getIntExtra(MainActivity.COLOUR, getColor(R.color.warm_glow));
+            colour = intent.getIntExtra(NEW_COLOUR, getColor(R.color.warm_glow));
             red_pigment = Color.red(colour);
             green_pigment = Color.green(colour);
             blue_pigment = Color.blue(colour);
+
+            String red_pigment_string = ("00" + Integer.toHexString(red_pigment)).substring(Integer.toHexString(red_pigment).length());
+            String green_pigment_string = ("00" + Integer.toHexString(green_pigment)).substring(Integer.toHexString(green_pigment).length());
+            String blue_pigment_string = ("00" + Integer.toHexString(blue_pigment)).substring(Integer.toHexString(blue_pigment).length());
+            newColourString = "COLOUR#" + red_pigment_string + green_pigment_string + blue_pigment_string;
         }
         else {
             new_colour = false;
@@ -157,7 +164,13 @@ public class MainActivity extends AppCompatActivity {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 byte[] response = new byte[21];
                 InputStream in = socket.getInputStream();
-                out.println("Request");
+                if (new_colour) {
+                    out.println(newColourString);
+                    new_colour = false;
+                }
+                else {
+                    out.println("Request");
+                }
                 in.read(response, 0, 21);
                 processResponse(response);
 
@@ -174,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_HOME);
             startActivity(intent);
         }
-        sendColour();
         setSwitches();
     }
 
@@ -385,13 +397,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ColourPicker.class);
         intent.putExtra(COLOUR, colour);
         startActivity(intent);
-    }
-
-    public void sendColour(){
-        if (new_colour) {
-            sendMessage("COLOUR#" + Integer.toHexString(colour));
-            new_colour = false;
-        }
     }
 
     public void setMFAlarm(View view) {

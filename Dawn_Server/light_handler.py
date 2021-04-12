@@ -166,7 +166,9 @@ class LightHandler:
         self.refresh_lights()
 
     def set_colour(self, colour):
-        self.rgb_colour = textwrap.wrap(colour.zfill(6), 2)
+        self.rgb_colour = []
+        for i in range(0, len(colour), 2):
+            self.rgb_colour.append(int(colour[i:i+2], 16))
         self.colour = tuple(reversed(self.rgb_colour))
         self.refresh_lights()
 
