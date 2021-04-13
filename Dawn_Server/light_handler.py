@@ -12,6 +12,22 @@ BEDROOM_LIGHTS_RELAY = 18
 LIVING_ROOM_LIGHTS_RELAY = 15
 
 
+def rgb_to_brg(rgb_colour):
+    return (
+        rgb_colour[2],
+        rgb_colour[0],
+        rgb_colour[1]
+    )
+
+
+def brg_to_rgb(brg_colour):
+    return (
+        brg_colour[1],
+        brg_colour[2],
+        brg_colour[0]
+    )
+
+
 class LightHandler:
 
     PORT_CABIN_LEDS = 73
@@ -26,7 +42,7 @@ class LightHandler:
     NUM_PIXELS = (STARBOARD_CABIN_LEDS + STERN_LEDS + PORT_CABIN_LEDS +
                   STARBOARD_BR_LEDS + BOW_LEDS + PORT_BR_LEDS)  # 383
 
-    # The order of the pixel colors - although actual order is BGR.
+    # The order of the pixel colors - although actual order is BRG.
     ORDER = neopixel.RGB
 
     START_LIVING_ROOM_PORT_LED = 0
@@ -48,14 +64,15 @@ class LightHandler:
     END_BEDROOM_PORT_LED = NUM_PIXELS
 
     # PRESET COLOURS
-    DEFAULT = (41, 255, 255)
+    DEFAULT = rgb_to_brg((255, 255, 41))
 
-    RED = (0, 0, 255)
-    PURPLE = (255, 0, 255)
-    BLUE = (255, 0, 0)
-    GREEN = (0, 255, 0)
-    YELLOW = (0, 255, 255)
-    ORANGE = (0, 165, 255)
+    RED = rgb_to_brg((255, 0, 0))
+    PURPLE = rgb_to_brg((255, 0, 255))
+    BLUE = rgb_to_brg((0, 0, 255))
+    GREEN = rgb_to_brg((0, 255, 0))
+    YELLOW = rgb_to_brg((255, 255, 0))
+    ORANGE = rgb_to_brg((255, 165, 0))
+
     PRESET_COLOURS = (RED, PURPLE, BLUE, GREEN, YELLOW, ORANGE)
     REVERSED_COLOURS = tuple(reversed(PRESET_COLOURS))
 
@@ -78,7 +95,7 @@ class LightHandler:
         self.k_on = False
         self.o_on = False
         self.brightness = 1
-        self.rgb_colour = tuple(reversed(self.DEFAULT))
+        self.rgb_colour = brg_to_rgb(self.DEFAULT)
         self.colour = self.DEFAULT
         self.ongoing_party = False
 
@@ -169,7 +186,7 @@ class LightHandler:
         self.rgb_colour = []
         for i in range(0, len(colour), 2):
             self.rgb_colour.append(int(colour[i:i+2], 16))
-        self.colour = tuple(reversed(self.rgb_colour))
+        self.colour = rgb_to_brg(self.rgb_colour)
         self.refresh_lights()
 
     def refresh_lights(self):
