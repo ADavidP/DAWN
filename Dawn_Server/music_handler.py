@@ -1,9 +1,12 @@
+"""Module for handling control of music. Handles relays which turn on stereo and speakers, and act as interface to
+command line for choice of spotify/online radio stations.
+"""
 import os
 import time
 import RPi.GPIO as GPIO
 
 # GPIO output pins for various relays
-RADIO = 7
+STEREO = 7
 LIVING_STARBOARD = 8
 LIVING_PORT = 25
 BEDROOM_PORT = 24
@@ -11,8 +14,10 @@ BEDROOM_STARBOARD = 23
 
 
 class MusicHandler:
+    """Overarching class for handling music"""
 
-    radio_stations = {
+    # Mapping of radio station command from app to index in mpc list
+    RADIO_STATIONS = {
         b'fip': 1,
         b'fip_electro': 2,
         b'triplej': 3,
@@ -22,11 +27,11 @@ class MusicHandler:
     }
 
     def __init__(self):
-        # Volume is scale of 0 to 6
+        # Volume is scale of 0 to 6. Initialise at maximum.
         self.volume = 6
         self.radio_client_on = False
         self.spotify_client_on = False
-        self.time_of_last_radio_toggle = None
+        self.time_of_last_stereo_toggle = None
         self.station = 0
         self.setup_gpio()
         self.stop_radio()
@@ -34,16 +39,16 @@ class MusicHandler:
 
     @staticmethod
     def is_thing_on(thing):
-        radio_on = GPIO.input(RADIO)
-        if not radio_on:
-            return False
-        else:
-            if thing == 'bedroom':
+        if GPIO.input(STEREO):
+            # Stereo is on
+            if thing == 'bedroom_speakers':
                 return GPIO.input(BEDROOM_PORT)
-            elif thing == 'living':
+            elif thing == 'living_room_speakers':
                 return GPIO.input(LIVING_PORT)
-            elif thing == 'radio':
-                return GPIO.input(RADIO)
+            elif thing == 'stereo':
+                return GPIO.input(STEREO)
+        else:
+            return False
 
     def start_spotify(self):
         self.spotify_client_on = True
@@ -60,12 +65,12 @@ class MusicHandler:
             self.start_spotify()
 
     def play_radio(self, station):
-        if self.radio_stations[station] == self.station:
+        if self.RADIO_STATIONS[station] == self.station:
             self.stop_radio()
         else:
-            os.system('mpc play {}'.format(self.radio_stations[station]))
+            os.system('mpc play {}'.format(self.RADIO_STATIONS[station]))
             self.radio_client_on = True
-            self.station = self.radio_stations[station]
+            self.station = self.RADIO_STATIONS[station]
 
     def stop_radio(self):
         os.system('mpc stop')
@@ -85,7 +90,7 @@ class MusicHandler:
 
     @staticmethod
     def setup_gpio():
-        GPIO.setup(RADIO, GPIO.OUT, initial=False)
+        GPIO.setup(STEREO, GPIO.OUT, initial=False)
         GPIO.setup(LIVING_STARBOARD, GPIO.OUT, initial=True)
         GPIO.setup(LIVING_PORT, GPIO.OUT, initial=True)
         GPIO.setup(BEDROOM_PORT, GPIO.OUT, initial=True)
@@ -99,21 +104,21 @@ class MusicHandler:
         self.toggle_thing(BEDROOM_PORT)
         self.toggle_thing(BEDROOM_STARBOARD)
 
-    def toggle_livingroom(self):
+    def toggle_living_room(self):
         self.toggle_thing(LIVING_PORT)
         self.toggle_thing(LIVING_STARBOARD)
 
-    def toggle_radio(self):
+    def toggle_stereo(self):
         current_time = time.time()
-        if (self.time_of_last_radio_toggle is None or
-                current_time - self.time_of_last_radio_toggle > 15):
-            self.time_of_last_radio_toggle = current_time
-            if GPIO.input(RADIO):
-                self.turn_radio_off()
+        if (self.time_of_last_stereo_toggle is None or
+                current_time - self.time_of_last_stereo_toggle > 8):
+            self.time_of_last_stereo_toggle = current_time
+            if GPIO.input(STEREO):
+                self.turn_stereo_off()
             else:
-                self.turn_radio_on()
+                self.turn_stereo_on()
 
-    def turn_radio_off(self):
+    def turn_stereo_off(self):
         if self.spotify_client_on:
             self.stop_spotify()
         if self.radio_client_on:
@@ -124,13 +129,13 @@ class MusicHandler:
         GPIO.output(LIVING_PORT, True)
         GPIO.output(BEDROOM_PORT, True)
         GPIO.output(BEDROOM_STARBOARD, True)
-        GPIO.output(RADIO, False)
+        GPIO.output(STEREO, False)
 
     @staticmethod
-    def turn_radio_on():
+    def turn_stereo_on():
         # do living room by default
         GPIO.output(LIVING_STARBOARD, True)
         GPIO.output(LIVING_PORT, True)
         GPIO.output(BEDROOM_PORT, False)
         GPIO.output(BEDROOM_STARBOARD, False)
-        GPIO.output(RADIO, True)
+        GPIO.output(STEREO, True)

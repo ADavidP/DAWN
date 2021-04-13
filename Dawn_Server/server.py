@@ -1,3 +1,4 @@
+"""Handles communication with clients."""
 import threading
 
 import socket
@@ -9,7 +10,10 @@ import watcher
 import RPi.GPIO as GPIO
 
 
-def build_response(music_obj, lights_obj, alarm_obj):
+def build_response(music_obj,  # type: music_handler.MusicHandler
+                   lights_obj,  # type: light_handler.LightHandler
+                   alarm_obj  # type: alarm.AlarmWatch
+                   ):
     """Builds response to any message from app"""
 
     def add_colour(r, colour):
@@ -33,16 +37,16 @@ def build_response(music_obj, lights_obj, alarm_obj):
         return r
 
     response = b''
-    response += music_obj.is_thing_on('radio').to_bytes(1, 'big')
-    response += music_obj.is_thing_on('bedroom').to_bytes(1, 'big')
-    response += music_obj.is_thing_on('living').to_bytes(1, 'big')
+    response += music_obj.is_thing_on('stereo').to_bytes(1, 'big')
+    response += music_obj.is_thing_on('bedroom_speakers').to_bytes(1, 'big')
+    response += music_obj.is_thing_on('living_room_speakers').to_bytes(1, 'big')
     response += music_obj.spotify_client_on.to_bytes(1, 'big')
     response += music_obj.volume.to_bytes(1, 'big')
     response += music_obj.station.to_bytes(1, 'big')
-    response += lights_obj.br_on.to_bytes(1, 'big')
-    response += lights_obj.lr_on.to_bytes(1, 'big')
-    response += lights_obj.o_on.to_bytes(1, 'big')
-    response += lights_obj.k_on.to_bytes(1, 'big')
+    response += lights_obj.bedroom_on.to_bytes(1, 'big')
+    response += lights_obj.living_room_on.to_bytes(1, 'big')
+    response += lights_obj.office_on.to_bytes(1, 'big')
+    response += lights_obj.kitchen_on.to_bytes(1, 'big')
     response += lights_obj.ongoing_party.to_bytes(1, 'big')
     response = add_slider(response, lights_obj.brightness)
     response = add_colour(response, lights_obj.rgb_colour)
@@ -67,15 +71,11 @@ def run():
     dead_switch_thread = threading.Thread(target=dead_switch.watch)
     dead_switch_thread.start()
 
-    # next create a socket object
     s = socket.socket()
     print("Socket successfully created")
     port = 12345
-
     s.bind(('', port))
-    print("socket binded to %s" % (port))
-
-    # put the socket into listening mode
+    print("socket bound to %s" % port)
     s.listen(5)
     print("socket is listening")
 
@@ -83,17 +83,17 @@ def run():
     # an error occurs
     while True:
         # Establish connection with client.
-        c, addr = s.accept()
-        print('Got connection from', addr)
+        c, address = s.accept()
+        print('Got connection from', address)
         command = c.recv(32).strip()
         print(command)
 
-        if command == b'living_room':
-            mh.toggle_livingroom()
-        elif command == b'bed_room':
+        if command == b'living_room_speakers':
+            mh.toggle_living_room()
+        elif command == b'bedroom_speakers':
             mh.toggle_bedroom()
-        elif command == b'radio':
-            mh.toggle_radio()
+        elif command == b'stereo':
+            mh.toggle_stereo()
         elif command == b'spotify':
             mh.toggle_spotify()
         elif command == b'kitchen_lights':
@@ -109,7 +109,7 @@ def run():
         elif command == b'reset_router':
             rh.reset_router()
         elif str(command, 'utf-8').split('#')[0] == 'BRIGHTNESS':
-            lh.set_brightness(float((str(command, 'utf-8').split('#')[1]))/63.0)
+            lh.set_brightness(float((str(command, 'utf-8').split('#')[1])) / 63.0)
         elif str(command, 'utf-8').split('#')[0] == 'COLOUR':
             lh.set_colour(str(command, 'utf-8').split('#')[1])
         elif str(command, 'utf-8').split('#')[0] == 'VOLUME':
@@ -118,17 +118,11 @@ def run():
             alarm_watcher.set_alarm(str(command, 'utf-8'))
         elif str(command, 'utf-8').split('#')[0] == 'CLEAR':
             alarm_watcher.clear_alarm(str(command, 'utf-8'))
-        elif command in mh.radio_stations:
+        elif command in mh.RADIO_STATIONS:
             mh.play_radio(command)
         elif command == b'kill':
-            mh.turn_radio_off()
+            mh.turn_stereo_off()
             lh.kill_all()
 
-        # Send response
         c.send(build_response(mh, lh, alarm_watcher))
-
-        # Close the connection with the client
         c.close()
-
-
-run()

@@ -316,17 +316,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchStereo(View view){
-        sendMessage("radio");
+        sendMessage("stereo");
         setSwitches();
     }
 
     public void toggleLivingRoom(View view) {
-        sendMessage("living_room");
+        sendMessage("living_room_speakers");
         setSwitches();
     }
 
     public void toggleBedRoom(View view) {
-        sendMessage("bed_room");
+        sendMessage("bedroom_speakers");
         setSwitches();
     }
 

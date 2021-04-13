@@ -1,3 +1,5 @@
+"""Handles alarm functionality. Alarm time is changed through the app and stored in a persistent text file.
+"""
 import time
 import datetime
 from music_handler import MusicHandler
@@ -61,6 +63,7 @@ class AlarmWatch:
         while True:
             time.sleep(60)
             current_datetime = datetime.datetime.now()
+            # Days indexed from 0 i.e. 0 -> 4 is equivalent to Monday to Friday
             if 0 <= current_datetime.weekday() <= 4 and self.weekday_alarm_time is not None:
                 alarm_of_interest = self.weekday_alarm_time
             elif 5 <= current_datetime.weekday() <= 6 and self.weekend_alarm_time is not None:
@@ -75,14 +78,15 @@ class AlarmWatch:
 
     def initiate_alarm(self):
         self.music_handler.set_volume(0)
-        self.music_handler.turn_radio_on()
+        self.music_handler.turn_stereo_on()
+        # Turning stereo on only turns on living room speakers by default
         self.music_handler.toggle_bedroom()
         self.music_handler.play_radio(b'bbc6')
         self.light_handler.colour = self.light_handler.DEFAULT
         for i in range(7):
             b = (i + 1)/28.0
-            if self.light_handler.br_on or i == 0:
-                self.light_handler.br_on = True
+            if self.light_handler.bedroom_on or i == 0:
+                self.light_handler.bedroom_on = True
                 self.light_handler.set_brightness(b)
-            if self.light_handler.br_on or i == 0 or self.music_handler.is_thing_on('radio'):
+            if self.light_handler.bedroom_on or i == 0 or self.music_handler.is_thing_on('stereo'):
                 time.sleep(60)
