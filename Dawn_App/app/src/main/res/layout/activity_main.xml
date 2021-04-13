@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.0"/>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/stereo_switch"
         android:layout_width="fill_parent"
@@ -53,7 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Sound" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/lrsound"
         android:layout_width="fill_parent"
@@ -69,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brsound" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/brsound"
         android:layout_width="fill_parent"
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stereo_switch" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/spotify"
         android:layout_width="fill_parent"
@@ -115,7 +115,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/volume_icon" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/brl"
         android:layout_width="fill_parent"
@@ -132,7 +132,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Lights" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/lrl"
         android:layout_width="fill_parent"
@@ -148,7 +148,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brl" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/ol"
         android:layout_width="fill_parent"
@@ -164,7 +164,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lrl" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/kl"
         android:layout_width="fill_parent"
@@ -180,7 +180,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ol" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/pm"
         android:layout_width="fill_parent"
@@ -341,7 +341,7 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <android.support.v7.widget.AppCompatSeekBar
+    <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/brightness"
         android:layout_width="315dp"
         android:layout_height="16dp"
@@ -356,6 +356,16 @@
         app:layout_constraintTop_toTopOf="@+id/brightness_icon"
         app:layout_constraintBottom_toBottomOf="@+id/brightness_icon" />
 
+    <Button
+        android:id="@+id/Colour"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:onClick="colourPicker"
+        android:text="Colour"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/brightness_icon" />
+
     <TextView
         android:id="@+id/Alarms"
         android:layout_width="wrap_content"
@@ -368,7 +378,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/brightness_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/Colour" />
 
     <ImageView
         android:id="@+id/volume_icon"
@@ -381,7 +391,7 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <android.support.v7.widget.AppCompatSeekBar
+    <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/volume"
         android:layout_width="315dp"
         android:layout_height="16dp"
@@ -421,6 +431,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Router" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

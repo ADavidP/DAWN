@@ -12,35 +12,40 @@ import RPi.GPIO as GPIO
 def build_response(music_obj, lights_obj, alarm_obj):
     """Builds response to any message from app"""
 
+    def add_colour(r, colour):
+        for pigment in colour:
+            r += pigment.to_bytes(1, 'big')
+        return r
+
     def add_alarm_time(r, alarm_time):
         """Adds alarm time to response"""
         if alarm_time is None:
-            r += False.to_bytes(2, 'big')
-            r += (0).to_bytes(4, 'big')
+            r += False.to_bytes(1, 'big')
+            r += (0).to_bytes(1, 'big')
         else:
-            r += True.to_bytes(2, 'big')
-            r += int(alarm_time.strftime("%H")).to_bytes(2, 'big')
-            r += int(alarm_time.strftime("%M")).to_bytes(2, 'big')
+            r += True.to_bytes(1, 'big')
+            r += int(alarm_time.strftime("%H")).to_bytes(1, 'big')
+            r += int(alarm_time.strftime("%M")).to_bytes(1, 'big')
         return r
 
     def add_slider(r, slider_val):
-        r += round(slider_val * 63).to_bytes(2, 'big')
+        r += round(slider_val * 63).to_bytes(1, 'big')
         return r
 
     response = b''
-    response += music_obj.is_thing_on('radio').to_bytes(2, 'big')
-    response += music_obj.is_thing_on('bedroom').to_bytes(2, 'big')
-    response += music_obj.is_thing_on('living').to_bytes(2, 'big')
-    response += music_obj.spotify_client_on.to_bytes(2, 'big')
-    response += music_obj.radio_client_on.to_bytes(2, 'big')
-    response += music_obj.volume.to_bytes(2, 'big')
-    response += music_obj.station.to_bytes(2, 'big')
-    response += lights_obj.br_on.to_bytes(2, 'big')
-    response += lights_obj.lr_on.to_bytes(2, 'big')
-    response += lights_obj.o_on.to_bytes(2, 'big')
-    response += lights_obj.k_on.to_bytes(2, 'big')
-    response += lights_obj.ongoing_party.to_bytes(2, 'big')
+    response += music_obj.is_thing_on('radio').to_bytes(1, 'big')
+    response += music_obj.is_thing_on('bedroom').to_bytes(1, 'big')
+    response += music_obj.is_thing_on('living').to_bytes(1, 'big')
+    response += music_obj.spotify_client_on.to_bytes(1, 'big')
+    response += music_obj.volume.to_bytes(1, 'big')
+    response += music_obj.station.to_bytes(1, 'big')
+    response += lights_obj.br_on.to_bytes(1, 'big')
+    response += lights_obj.lr_on.to_bytes(1, 'big')
+    response += lights_obj.o_on.to_bytes(1, 'big')
+    response += lights_obj.k_on.to_bytes(1, 'big')
+    response += lights_obj.ongoing_party.to_bytes(1, 'big')
     response = add_slider(response, lights_obj.brightness)
+    response = add_colour(response, lights_obj.rgb_colour)
     response = add_alarm_time(response, alarm_obj.weekday_alarm_time)
     response = add_alarm_time(response, alarm_obj.weekend_alarm_time)
 
@@ -105,6 +110,8 @@ def run():
             rh.reset_router()
         elif str(command, 'utf-8').split('#')[0] == 'BRIGHTNESS':
             lh.set_brightness(float((str(command, 'utf-8').split('#')[1]))/63.0)
+        elif str(command, 'utf-8').split('#')[0] == 'COLOUR':
+            lh.set_colour(str(command, 'utf-8').split('#')[1])
         elif str(command, 'utf-8').split('#')[0] == 'VOLUME':
             mh.set_volume(int((str(command, 'utf-8').split('#')[1])))
         elif str(command, 'utf-8').split('#')[0] == 'ALARM':

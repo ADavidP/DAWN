@@ -1,3 +1,4 @@
+import textwrap
 import threading
 import time
 import random
@@ -9,6 +10,22 @@ import RPi.GPIO as GPIO
 
 BEDROOM_LIGHTS_RELAY = 18
 LIVING_ROOM_LIGHTS_RELAY = 15
+
+
+def rgb_to_brg(rgb_colour):
+    return (
+        rgb_colour[2],
+        rgb_colour[0],
+        rgb_colour[1]
+    )
+
+
+def brg_to_rgb(brg_colour):
+    return (
+        brg_colour[1],
+        brg_colour[2],
+        brg_colour[0]
+    )
 
 
 class LightHandler:
@@ -25,7 +42,7 @@ class LightHandler:
     NUM_PIXELS = (STARBOARD_CABIN_LEDS + STERN_LEDS + PORT_CABIN_LEDS +
                   STARBOARD_BR_LEDS + BOW_LEDS + PORT_BR_LEDS)  # 383
 
-    # The order of the pixel colors - although actual order is BGR.
+    # The order of the pixel colors - although actual order is BRG.
     ORDER = neopixel.RGB
 
     START_LIVING_ROOM_PORT_LED = 0
@@ -47,12 +64,15 @@ class LightHandler:
     END_BEDROOM_PORT_LED = NUM_PIXELS
 
     # PRESET COLOURS
-    RED = (0, 0, 255)
-    PURPLE = (255, 0, 255)
-    BLUE = (255, 0, 0)
-    GREEN = (0, 255, 0)
-    YELLOW = (0, 255, 255)
-    ORANGE = (0, 165, 255)
+    DEFAULT = rgb_to_brg((255, 255, 41))
+
+    RED = rgb_to_brg((255, 0, 0))
+    PURPLE = rgb_to_brg((255, 0, 255))
+    BLUE = rgb_to_brg((0, 0, 255))
+    GREEN = rgb_to_brg((0, 255, 0))
+    YELLOW = rgb_to_brg((255, 255, 0))
+    ORANGE = rgb_to_brg((255, 165, 0))
+
     PRESET_COLOURS = (RED, PURPLE, BLUE, GREEN, YELLOW, ORANGE)
     REVERSED_COLOURS = tuple(reversed(PRESET_COLOURS))
 
@@ -75,6 +95,8 @@ class LightHandler:
         self.k_on = False
         self.o_on = False
         self.brightness = 1
+        self.rgb_colour = brg_to_rgb(self.DEFAULT)
+        self.colour = self.DEFAULT
         self.ongoing_party = False
 
         self.party_time = None
@@ -99,7 +121,7 @@ class LightHandler:
     def scale_light(self, t, scale):
         if not 0 <= scale <= 1:
             scale = 1
-        return tuple(int(c * scale) for c in reversed(t))
+        return tuple(int(c * scale) for c in t)
 
     def set_batch(self, start, end, brightness=1):
         self.ongoing_party = False
@@ -107,7 +129,7 @@ class LightHandler:
             while self.party_time.isAlive():
                 time.sleep(0.001)
         for i in range(start, end):
-            self.pixels[i] = self.scale_light((255, 255, 41), brightness)
+            self.pixels[i] = self.scale_light(self.colour, brightness)
         if all([pixel == (0, 0, 0) for pixel in self.pixels]):
             self.disable_lights_relay()
         else:
@@ -158,6 +180,16 @@ class LightHandler:
 
     def set_brightness(self, brightness):
         self.brightness = brightness
+        self.refresh_lights()
+
+    def set_colour(self, colour):
+        self.rgb_colour = []
+        for i in range(0, len(colour), 2):
+            self.rgb_colour.append(int(colour[i:i+2], 16))
+        self.colour = rgb_to_brg(self.rgb_colour)
+        self.refresh_lights()
+
+    def refresh_lights(self):
         if self.lr_on:
             self.set_batch(self.START_LIVING_ROOM_PORT_LED, self.END_LIVING_ROOM_PORT_LED, self.brightness)
             self.set_batch(self.START_LIVING_ROOM_STARBOARD_LED, self.END_LIVING_ROOM_STARBOARD_LED, self.brightness)

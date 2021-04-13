@@ -24,6 +24,7 @@ class PhoneWatch:
         for i in range(300):
             if GPIO.input(SENSOR):
                 self.light_handler.toggle_kitchen_lights()
+                self.light_handler.colour = self.light_handler.DEFAULT
                 self.light_handler.set_brightness(1)
                 break
             else:

@@ -6,16 +6,19 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,22 +26,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @SuppressLint("DefaultLocale")
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class MainActivity extends AppCompatActivity {
 
+    public static final String COLOUR = "colour";
+    public static final String NEW_COLOUR = "new_colour";
     TimePickerDialog timePickerDialog;
     SeekBar brightnessSeekbar;
     SeekBar volumeSeekbar;
@@ -47,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     Boolean bs_on;
     Boolean ls_on;
     Boolean sc_on;
-    Boolean rc_on;
     Short radio_volume;
     Short radio_station = 0;
     Boolean bl_on;
@@ -55,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
     Boolean ol_on;
     Boolean kl_on;
     Boolean party_mode;
+
+    Boolean new_colour;
+    String newColourString;
+
+    Integer red_pigment;
+    Integer green_pigment;
+    Integer blue_pigment;
+    @ColorInt
+    Integer colour;
+
     Boolean weekday_alarm_on;
     Short weekday_alarm_hours;
     Short weekday_alarm_minutes;
@@ -69,6 +85,24 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
         StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.getExtras() != null && intent.getExtras().containsKey(NEW_COLOUR)){
+            new_colour = true;
+            colour = intent.getIntExtra(NEW_COLOUR, getColor(R.color.warm_glow));
+            red_pigment = Color.red(colour);
+            green_pigment = Color.green(colour);
+            blue_pigment = Color.blue(colour);
+
+            String red_pigment_string = ("00" + Integer.toHexString(red_pigment)).substring(Integer.toHexString(red_pigment).length());
+            String green_pigment_string = ("00" + Integer.toHexString(green_pigment)).substring(Integer.toHexString(green_pigment).length());
+            String blue_pigment_string = ("00" + Integer.toHexString(blue_pigment)).substring(Integer.toHexString(blue_pigment).length());
+            newColourString = "COLOUR#" + red_pigment_string + green_pigment_string + blue_pigment_string;
+        }
+        else {
+            new_colour = false;
+        }
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         brightnessSeekbar = findViewById(R.id.brightness);
@@ -128,12 +162,17 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Socket socket = new Socket("192.168.1.214", 12345);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                InputStreamReader in = new InputStreamReader(socket.getInputStream());
-                char[] response = new char[38];
-                out.println("Request");
-                in.read(response, 0, 38);
-                String string_response = new String(response);
-                processResponse(string_response);
+                byte[] response = new byte[21];
+                InputStream in = socket.getInputStream();
+                if (new_colour) {
+                    out.println(newColourString);
+                    new_colour = false;
+                }
+                else {
+                    out.println("Request");
+                }
+                in.read(response, 0, 21);
+                processResponse(response);
 
             } catch (IOException ignored) {
                 // Can't connect so close app
@@ -151,26 +190,28 @@ public class MainActivity extends AppCompatActivity {
         setSwitches();
     }
 
-    private void processResponse (@NonNull String response){
-        stereo_on = response.substring(0, 2).equals("\00\01");
-        bs_on = response.substring(2, 4).equals("\00\01");
-        ls_on = response.substring(4, 6).equals("\00\01");
-        sc_on = response.substring(6, 8).equals("\00\01");
-        rc_on = response.substring(8, 10).equals("\00\01");
-        radio_volume = ByteBuffer.wrap(response.substring(10, 12).getBytes()).getShort();
-        radio_station = ByteBuffer.wrap(response.substring(12, 14).getBytes()).getShort();
-        bl_on = response.substring(14, 16).equals("\00\01");
-        ll_on = response.substring(16, 18).equals("\00\01");
-        ol_on = response.substring(18, 20).equals("\00\01");
-        kl_on = response.substring(20, 22).equals("\00\01");
-        party_mode = response.substring(22, 24).equals("\00\01");
-        brightness_val = ByteBuffer.wrap(response.substring(24, 26).getBytes()).getShort();
-        weekday_alarm_on = response.substring(26, 28).equals("\00\01");
-        weekday_alarm_hours = ByteBuffer.wrap(response.substring(28, 30).getBytes()).getShort();
-        weekday_alarm_minutes = ByteBuffer.wrap(response.substring(30, 32).getBytes()).getShort();
-        weekend_alarm_on = response.substring(32, 34).equals("\00\01");
-        weekend_alarm_hours = ByteBuffer.wrap(response.substring(34, 36).getBytes()).getShort();
-        weekend_alarm_minutes = ByteBuffer.wrap(response.substring(36, 38).getBytes()).getShort();
+    private void processResponse (byte [] response) throws UnsupportedEncodingException {
+        stereo_on = Byte.toUnsignedInt(response[0]) == 1;
+        bs_on = Byte.toUnsignedInt(response[1]) == 1;
+        ls_on = Byte.toUnsignedInt(response[2]) == 1;
+        sc_on = Byte.toUnsignedInt(response[3]) == 1;
+        radio_volume = (short) Byte.toUnsignedInt(response[4]);
+        radio_station = (short) Byte.toUnsignedInt(response[5]);
+        bl_on = Byte.toUnsignedInt(response[6]) == 1;
+        ll_on = Byte.toUnsignedInt(response[7]) == 1;
+        ol_on = Byte.toUnsignedInt(response[8]) == 1;
+        kl_on = Byte.toUnsignedInt(response[9]) == 1;
+        party_mode = Byte.toUnsignedInt(response[10]) == 1;
+        brightness_val = (short) Byte.toUnsignedInt(response[11]);
+        red_pigment = Byte.toUnsignedInt(response[12]);
+        green_pigment = Byte.toUnsignedInt(response[13]);
+        blue_pigment = Byte.toUnsignedInt(response[14]);
+        weekday_alarm_on = Byte.toUnsignedInt(response[15]) == 1;
+        weekday_alarm_hours = (short) Byte.toUnsignedInt(response[16]);
+        weekday_alarm_minutes = (short) Byte.toUnsignedInt(response[17]);
+        weekend_alarm_on = Byte.toUnsignedInt(response[18]) == 1;
+        weekend_alarm_hours = (short) Byte.toUnsignedInt(response[19]);
+        weekend_alarm_minutes = (short) Byte.toUnsignedInt(response[20]);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -203,12 +244,12 @@ public class MainActivity extends AppCompatActivity {
         pm.setChecked(party_mode);
 
         ImageView[] stations = {
-                findViewById(R.id.triplej),
-                findViewById(R.id.gaydio),
-                findViewById(R.id.bbc6),
-                findViewById(R.id.fip_electro),
                 findViewById(R.id.fip),
-                findViewById(R.id.folk_forward)
+                findViewById(R.id.fip_electro),
+                findViewById(R.id.triplej),
+                findViewById(R.id.folk_forward),
+                findViewById(R.id.gaydio),
+                findViewById(R.id.bbc6)
         };
 
         SeekBar brightness = findViewById(R.id.brightness);
@@ -219,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         volume.setMax(6);
         volume.setProgress(radio_volume);
 
-        for (short i = 0; i < stations.length; i++) {
+        for (int i = 0; i < stations.length; i++) {
             if (radio_station == i + 1) {
                 stations[i].setBackground(getResources().getDrawable(R.drawable.border));
             }
@@ -257,12 +298,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             Socket socket = new Socket("192.168.1.214", 12345);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            InputStreamReader in = new InputStreamReader(socket.getInputStream());
-            char[] response = new char[38];
+            byte[] response = new byte[21];
+            InputStream in = socket.getInputStream();
             out.println(s);
-            in.read(response, 0, 38);
-            String string_response = new String(response);
-            processResponse(string_response);
+            in.read(response, 0, 21);
+            processResponse(response);
             return true;
         }
         catch (IOException ignored){
@@ -350,6 +390,13 @@ public class MainActivity extends AppCompatActivity {
         TimeUnit.MILLISECONDS.sleep(10);
         sendMessage("Request");
         setSwitches();
+    }
+
+    public void colourPicker(View view) {
+        colour = Color.rgb(red_pigment, green_pigment, blue_pigment);
+        Intent intent = new Intent(this, ColourPicker.class);
+        intent.putExtra(COLOUR, colour);
+        startActivity(intent);
     }
 
     public void setMFAlarm(View view) {
