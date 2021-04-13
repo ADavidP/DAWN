@@ -52,7 +52,7 @@ class LightHandler:
     
     # Derived starts and ends of subsections of strip used for lighting
     START_LIVING_ROOM_PORT_LED = 0
-    END_LIVING_ROOM_PORT_LED = PORT_CABIN_LEDS + 39
+    END_LIVING_ROOM_PORT_LED = 39
     START_OFFICE_LED = 10
     END_OFFICE_LED = 26
     START_KITCHEN_PORT_LED = END_LIVING_ROOM_PORT_LED
