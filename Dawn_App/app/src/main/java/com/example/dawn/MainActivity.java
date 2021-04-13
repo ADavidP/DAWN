@@ -397,6 +397,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ColourPicker.class);
         intent.putExtra(COLOUR, colour);
         startActivity(intent);
+        finish();
     }
 
     public void setMFAlarm(View view) {
