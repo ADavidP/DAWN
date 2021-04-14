@@ -52,7 +52,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Sound" />
-
+    
+    <androidx.appcompat.widget.SwitchCompat
+        android:theme="@style/AppTheme"
+        android:id="@+id/brsound"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="start"
+        android:onClick="toggleBedRoom"
+        android:text="@string/bedroom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stereo_switch" />
+    
     <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
         android:id="@+id/lrsound"
@@ -69,37 +85,131 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brsound" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:theme="@style/AppTheme"
-        android:id="@+id/brsound"
-        android:layout_width="fill_parent"
+    <ImageView
+        android:id="@+id/volume_icon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
+        app:srcCompat="@drawable/ic_d7e439873663de4a6085f538d3ab09df__1_"
+        app:layout_constraintTop_toBottomOf="@+id/lrsound"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
-        android:gravity="start"
-        android:onClick="toggleBedRoom"
-        android:text="@string/bedroom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stereo_switch" />
+        android:layout_marginLeft="8dp"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:theme="@style/AppTheme"
-        android:id="@+id/spotify"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/volume"
+        android:layout_width="315dp"
+        android:layout_height="16dp"
         android:layout_marginStart="8dp"
-        android:gravity="start"
-        android:onClick="toggleSpotify"
-        android:text="Spotify"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:max="63"
+        android:theme="@style/AppTheme"
+        app:layout_constraintStart_toEndOf="@+id/volume_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lrsound" />
+        app:layout_constraintTop_toTopOf="@+id/volume_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/volume_icon" />
+
+    <HorizontalScrollView
+        android:id="@+id/stations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/volume_icon">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/fip"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="fip"
+                app:srcCompat="@drawable/fip_icon" />
+
+
+            <ImageView
+                android:id="@+id/fip_electro"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="fip_electro"
+                app:srcCompat="@drawable/fip_electro" />
+
+            <ImageView
+                android:id="@+id/triplej"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="triplej"
+                app:srcCompat="@drawable/triplej_icon" />
+
+            <ImageView
+                android:id="@+id/folk_forward"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="folk_forward"
+                app:srcCompat="@drawable/folkfwd_icon" />
+
+            <ImageView
+                android:id="@+id/gaydio"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="gaydio"
+                app:srcCompat="@drawable/gaydio_icon" />
+
+            <ImageView
+                android:id="@+id/bbc6"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="bbc6"
+                app:srcCompat="@drawable/bbc_icon" />
+
+            <ImageView
+                android:id="@+id/seven_inch_soul"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="seven_inch_soul"
+                app:srcCompat="@drawable/_soul_400" />
+
+            <ImageView
+                android:id="@+id/heavyweight_reggae"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="heavyweight_reggae"
+                app:srcCompat="@drawable/reggae400" />
+
+            <ImageView
+                android:id="@+id/spotify"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="toggleSpotify"
+                app:srcCompat="@drawable/spotify_logo_png_7053" />
+
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
 
     <TextView
         android:id="@+id/Lights"
@@ -113,7 +223,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/volume_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/stations" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
@@ -259,79 +369,6 @@
         app:layout_constraintTop_toBottomOf="@+id/ClearMF" />
 
     <ImageView
-        android:id="@+id/fip"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="fip"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spotify"
-        app:srcCompat="@drawable/fip_icon" />
-
-
-    <ImageView
-        android:id="@+id/fip_electro"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="fip_electro"
-        app:layout_constraintLeft_toRightOf="@+id/fip"
-        app:layout_constraintTop_toBottomOf="@+id/spotify"
-        app:srcCompat="@drawable/fip_electro" />
-
-    <ImageView
-        android:id="@+id/triplej"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="triplej"
-        app:layout_constraintLeft_toRightOf="@+id/fip_electro"
-        app:layout_constraintTop_toBottomOf="@+id/spotify"
-        app:srcCompat="@drawable/triplej_icon" />
-
-    <ImageView
-        android:id="@+id/folk_forward"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="folk_forward"
-        app:layout_constraintLeft_toRightOf="@+id/triplej"
-        app:layout_constraintTop_toBottomOf="@+id/spotify"
-        app:srcCompat="@drawable/folkfwd_icon" />
-
-    <ImageView
-        android:id="@+id/gaydio"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="gaydio"
-        app:layout_constraintLeft_toRightOf="@+id/folk_forward"
-        app:layout_constraintTop_toBottomOf="@+id/spotify"
-        app:srcCompat="@drawable/gaydio_icon" />
-
-    <ImageView
-        android:id="@+id/bbc6"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="bbc6"
-        app:layout_constraintLeft_toRightOf="@+id/gaydio"
-        app:layout_constraintTop_toBottomOf="@+id/spotify"
-        app:srcCompat="@drawable/bbc_icon" />
-
-    <ImageView
         android:id="@+id/brightness_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -379,32 +416,6 @@
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Colour" />
-
-    <ImageView
-        android:id="@+id/volume_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_d7e439873663de4a6085f538d3ab09df__1_"
-        app:layout_constraintTop_toBottomOf="@+id/fip"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/volume"
-        android:layout_width="315dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:max="63"
-        android:theme="@style/AppTheme"
-        app:layout_constraintStart_toEndOf="@+id/volume_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/volume_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/volume_icon" />
     
     <TextView
         android:id="@+id/Router"
@@ -430,6 +441,7 @@
         android:text="Reset"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Router" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

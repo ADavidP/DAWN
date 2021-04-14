@@ -23,7 +23,9 @@ class MusicHandler:
         b'triplej': 3,
         b'folk_forward': 4,
         b'gaydio': 5,
-        b'bbc6': 6
+        b'bbc6': 6,
+        b'seven_inch_soul': 7,
+        b'heavyweight_reggae': 8
     }
 
     def __init__(self):
@@ -51,6 +53,7 @@ class MusicHandler:
             return False
 
     def start_spotify(self):
+        self.stop_radio()
         self.spotify_client_on = True
         os.system('sudo systemctl start raspotify')
 
@@ -65,6 +68,7 @@ class MusicHandler:
             self.start_spotify()
 
     def play_radio(self, station):
+        self.stop_spotify()
         if self.RADIO_STATIONS[station] == self.station:
             self.stop_radio()
         else:

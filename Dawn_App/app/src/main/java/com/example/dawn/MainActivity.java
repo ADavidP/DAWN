@@ -225,9 +225,6 @@ public class MainActivity extends AppCompatActivity {
         SwitchCompat ls = findViewById(R.id.lrsound);
         ls.setChecked(ls_on);
 
-        SwitchCompat spotify = findViewById(R.id.spotify);
-        spotify.setChecked(sc_on);
-
         SwitchCompat bl = findViewById(R.id.brl);
         bl.setChecked(bl_on);
 
@@ -249,8 +246,17 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.triplej),
                 findViewById(R.id.folk_forward),
                 findViewById(R.id.gaydio),
-                findViewById(R.id.bbc6)
+                findViewById(R.id.bbc6),
+                findViewById(R.id.seven_inch_soul),
+                findViewById(R.id.heavyweight_reggae)
         };
+
+        if (sc_on) {
+            findViewById(R.id.spotify).setBackground(getResources().getDrawable(R.drawable.border));
+        }
+        else {
+            findViewById(R.id.spotify).setBackground(null);
+        }
 
         SeekBar brightness = findViewById(R.id.brightness);
         brightness.setMax(63);
@@ -362,6 +368,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void folk_forward (View view) {
         sendMessage("folk_forward");
+        setSwitches();
+    }
+
+    public void seven_inch_soul (View view) {
+        sendMessage("seven_inch_soul");
+        setSwitches();
+    }
+
+    public void heavyweight_reggae (View view) {
+        sendMessage("heavyweight_reggae");
         setSwitches();
     }
 
