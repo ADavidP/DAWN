@@ -1,3 +1,4 @@
+"""Functionality to reset router"""
 import time
 
 import RPi.GPIO as GPIO

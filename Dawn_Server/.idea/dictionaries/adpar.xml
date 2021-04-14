@@ -2,6 +2,9 @@
   <dictionary name="adpar">
     <words>
       <w>fairphone</w>
+      <w>gpio</w>
+      <w>leds</w>
+      <w>soph</w>
     </words>
   </dictionary>
 </component>
