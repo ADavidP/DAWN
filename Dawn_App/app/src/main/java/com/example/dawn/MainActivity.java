@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
     Short weekendAlarmHours;
     Short weekendAlarmMinutes;
 
+    /**
+     * Processes colour if intent from colour activity. Sets up listeners.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
         brightnessSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b) {setBrightness (i);}
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (fromUser) {setBrightness (i);}
             }
 
             @Override
@@ -120,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
         volumeSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b) {setVolume (i);}
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (fromUser) {setVolume (i);}
             }
 
             @Override
@@ -165,6 +168,9 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
+    /**
+     * Gets state of server and sets state of app to reflect this.
+     */
     @Override
     protected void onResume () {
         super.onResume();
