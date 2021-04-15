@@ -8,10 +8,10 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
@@ -21,13 +21,12 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
     <TextView
-        android:id="@+id/Sound"
+        android:id="@+id/sound_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:text="Sound"
+        android:text="@string/sound"
         android:textStyle="bold"
         android:textColor="#000000"
         android:textSize="16sp"
@@ -37,72 +36,64 @@
         app:layout_constraintHorizontal_bias="0.0"/>
 
     <androidx.appcompat.widget.SwitchCompat
-        android:theme="@style/AppTheme"
         android:id="@+id/stereo_switch"
+        android:theme="@style/AppTheme"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:gravity="start"
-        android:text="Stereo"
+        android:text="@string/stereo"
         android:onClick="switchStereo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Sound" />
+        app:layout_constraintTop_toBottomOf="@+id/sound_title" />
     
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/bedroom_speakers"
         android:theme="@style/AppTheme"
-        android:id="@+id/brsound"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:gravity="start"
-        android:onClick="toggleBedRoom"
+        android:onClick="toggleBedroomSpeakers"
         android:text="@string/bedroom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stereo_switch" />
     
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/living_room_speakers"
         android:theme="@style/AppTheme"
-        android:id="@+id/lrsound"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:gravity="start"
         android:text="@string/living_room"
-        android:onClick="toggleLivingRoom"
+        android:onClick="toggleLivingRoomSpeakers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/brsound" />
+        app:layout_constraintTop_toBottomOf="@+id/bedroom_speakers" />
 
     <ImageView
         android:id="@+id/volume_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_d7e439873663de4a6085f538d3ab09df__1_"
-        app:layout_constraintTop_toBottomOf="@+id/lrsound"
+        app:layout_constraintTop_toBottomOf="@+id/living_room_speakers"
         android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/speaker_icon" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/volume"
         android:layout_width="315dp"
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
         android:max="63"
         android:theme="@style/AppTheme"
@@ -119,7 +110,7 @@
         app:layout_constraintTop_toBottomOf="@+id/volume_icon">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="88dp"
             android:orientation="horizontal">
 
@@ -139,7 +130,7 @@
                 android:layout_height="72dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:onClick="fip_electro"
+                android:onClick="fipElectro"
                 app:srcCompat="@drawable/fip_electro" />
 
             <ImageView
@@ -157,7 +148,7 @@
                 android:layout_height="72dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:onClick="folk_forward"
+                android:onClick="folkForward"
                 app:srcCompat="@drawable/folkfwd_icon" />
 
             <ImageView
@@ -184,7 +175,7 @@
                 android:layout_height="72dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:onClick="seven_inch_soul"
+                android:onClick="sevenInchSoul"
                 app:srcCompat="@drawable/_soul_400" />
 
             <ImageView
@@ -193,7 +184,7 @@
                 android:layout_height="72dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:onClick="heavyweight_reggae"
+                android:onClick="heavyweightReggae"
                 app:srcCompat="@drawable/reggae400" />
 
             <ImageView
@@ -205,20 +196,16 @@
                 android:onClick="toggleSpotify"
                 app:srcCompat="@drawable/spotify_logo_png_7053" />
 
-
         </LinearLayout>
     </HorizontalScrollView>
 
-
-
     <TextView
-        android:id="@+id/Lights"
+        android:id="@+id/lights_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:text="Lights"
+        android:text="@string/lights"
         android:textStyle="bold"
         android:textColor="#000000"
         android:textSize="16sp"
@@ -226,165 +213,149 @@
         app:layout_constraintTop_toBottomOf="@+id/stations" />
 
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/bedroom_lights"
         android:theme="@style/AppTheme"
-        android:id="@+id/brl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="4dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:gravity="start"
         android:onClick="bedroomLights"
-        android:text="Bedroom"
+        android:text="@string/bedroom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Lights" />
+        app:layout_constraintTop_toBottomOf="@+id/lights_title" />
 
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/living_room_lights"
         android:theme="@style/AppTheme"
-        android:id="@+id/lrl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:gravity="start"
         android:onClick="livingRoomLights"
-        android:text="Living Room"
+        android:text="@string/living_room"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/brl" />
+        app:layout_constraintTop_toBottomOf="@+id/bedroom_lights" />
 
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/office_lights"
         android:theme="@style/AppTheme"
-        android:id="@+id/ol"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:gravity="start"
         android:onClick="officeLights"
-        android:text="Office"
+        android:text="@string/office"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lrl" />
+        app:layout_constraintTop_toBottomOf="@+id/living_room_lights" />
 
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/kitchen_lights"
         android:theme="@style/AppTheme"
-        android:id="@+id/kl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:gravity="start"
         android:onClick="kitchenLights"
-        android:text="Kitchen"
+        android:text="@string/kitchen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ol" />
+        app:layout_constraintTop_toBottomOf="@+id/office_lights" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:theme="@style/AppTheme"
-        android:id="@+id/pm"
+        android:id="@+id/party_mode"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:gravity="start"
         android:onClick="partyMode"
-        android:text="Party Mode"
+        android:text="@string/party_mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kl" />
+        app:layout_constraintTop_toBottomOf="@+id/kitchen_lights" />
 
     <Button
-        android:id="@+id/ChooseTimeMF"
+        android:id="@+id/choose_time_weekday"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:onClick="setMFAlarm"
-        android:text="Weekday Alarm"
+        android:text="@string/weekday_alarm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Alarms" />
+        app:layout_constraintTop_toBottomOf="@+id/alarms" />
 
     <Button
-        android:id="@+id/ClearMF"
+        android:id="@+id/clear_time_weekday"
         android:layout_width="36dp"
         android:layout_height="39dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:onClick="clearMFAlarm"
-        android:text="X"
+        android:text="@string/x"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Alarms" />
+        app:layout_constraintTop_toBottomOf="@+id/alarms" />
 
     <TextView
-        android:id="@+id/MF_Time"
+        android:id="@+id/weekday_time"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
         android:gravity="center"
-        android:text="07:35"
-        app:layout_constraintRight_toLeftOf="@+id/ClearMF"
-        app:layout_constraintTop_toBottomOf="@+id/Alarms" />
+        android:text="@string/default_weekday_time"
+        app:layout_constraintRight_toLeftOf="@+id/clear_time_weekday"
+        app:layout_constraintTop_toBottomOf="@+id/alarms" />
 
     <Button
-        android:id="@+id/ChooseTimeSS"
+        android:id="@+id/choose_time_weekend"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:onClick="setSSAlarm"
-        android:text="Weekend Alarm"
+        android:text="@string/weekend_alarm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ChooseTimeMF" />
-
-    <TextView
-        android:id="@+id/SS_Time"
-        android:layout_width="wrap_content"
-        android:layout_height="39dp"
-        android:gravity="center"
-        android:text="10:00"
-        app:layout_constraintRight_toLeftOf="@+id/ClearSS"
-        app:layout_constraintTop_toBottomOf="@+id/MF_Time" />
+        app:layout_constraintTop_toBottomOf="@+id/choose_time_weekday" />
 
     <Button
-        android:id="@+id/ClearSS"
+        android:id="@+id/clear_time_weekend"
         android:layout_width="36dp"
         android:layout_height="39dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:onClick="clearSSAlarm"
-        android:text="X"
+        android:text="@string/x"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ClearMF" />
+        app:layout_constraintTop_toBottomOf="@+id/clear_time_weekday" />
+
+    <TextView
+        android:id="@+id/weekend_time"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:gravity="center"
+        android:text="@string/default_weekend_time"
+        app:layout_constraintRight_toLeftOf="@+id/clear_time_weekend"
+        app:layout_constraintTop_toBottomOf="@+id/weekday_time" />
 
     <ImageView
         android:id="@+id/brightness_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_brightness_low_24px"
-        app:layout_constraintTop_toBottomOf="@+id/pm"
+        app:layout_constraintTop_toBottomOf="@+id/party_mode"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/sun_icon" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/brightness"
         android:layout_width="315dp"
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
         android:max="63"
         android:theme="@style/AppTheme"
@@ -394,55 +365,50 @@
         app:layout_constraintBottom_toBottomOf="@+id/brightness_icon" />
 
     <Button
-        android:id="@+id/Colour"
+        android:id="@+id/colour"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
         android:layout_marginStart="8dp"
         android:onClick="colourPicker"
-        android:text="Colour"
+        android:text="@string/colour"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brightness_icon" />
 
     <TextView
-        android:id="@+id/Alarms"
+        android:id="@+id/alarms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:text="Alarms"
+        android:text="@string/alarms"
         android:textStyle="bold"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Colour" />
+        app:layout_constraintTop_toBottomOf="@+id/colour" />
     
     <TextView
-        android:id="@+id/Router"
+        android:id="@+id/router"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:text="Router"
+        android:text="@string/router"
         android:textStyle="bold"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ChooseTimeSS" />
+        app:layout_constraintTop_toBottomOf="@+id/choose_time_weekend" />
 
     <Button
-        android:id="@+id/Reset"
+        android:id="@+id/reset"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:onClick="resetRouter"
-        android:text="Reset"
+        android:text="@string/reset"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Router" />
-
+        app:layout_constraintTop_toBottomOf="@+id/router" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

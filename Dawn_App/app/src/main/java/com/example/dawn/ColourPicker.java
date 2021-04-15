@@ -29,7 +29,7 @@ public class ColourPicker extends AppCompatActivity {
         Intent intent = getIntent();
         currentColour = intent.getIntExtra(MainActivity.COLOUR, getColor(R.color.warm_glow));
 
-        ColorPickerView colourPicker = findViewById(R.id.gradientColourPicker);
+        ColorPickerView colourPicker = findViewById(R.id.gradient_colour_picker);
         colourPicker.setColorListener(new ColorListener() {
             @Override
             public void onColorSelected(int color, boolean fromUser) {
@@ -44,8 +44,8 @@ public class ColourPicker extends AppCompatActivity {
         SeekBar redSlider = findViewById(R.id.red_slider);
         redSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b) {sliderChange();};
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (fromUser) {sliderChange();}
             }
 
             @Override
@@ -58,8 +58,8 @@ public class ColourPicker extends AppCompatActivity {
         SeekBar greenSlider = findViewById(R.id.green_slider);
         greenSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b) {sliderChange();};
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (fromUser) {sliderChange();}
             }
 
             @Override
@@ -72,8 +72,8 @@ public class ColourPicker extends AppCompatActivity {
         SeekBar blueSlider = findViewById(R.id.blue_slider);
         blueSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (b) {sliderChange();};
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (fromUser) {sliderChange();}
             }
 
             @Override
@@ -95,7 +95,7 @@ public class ColourPicker extends AppCompatActivity {
     }
 
     private void setSelectedGradient(@ColorInt Integer colour){
-        ColorPickerView colourPicker = findViewById(R.id.gradientColourPicker);
+        ColorPickerView colourPicker = findViewById(R.id.gradient_colour_picker);
         try {
             colourPicker.selectByHsvColor(colour);
         }
@@ -220,13 +220,13 @@ public class ColourPicker extends AppCompatActivity {
 
     public void sliderChange(){
         SeekBar redSlider = findViewById(R.id.red_slider);
-        Integer red = redSlider.getProgress();
+        int red = redSlider.getProgress();
 
         SeekBar greenSlider = findViewById(R.id.green_slider);
-        Integer green = greenSlider.getProgress();
+        int green = greenSlider.getProgress();
 
         SeekBar blueSlider = findViewById(R.id.blue_slider);
-        Integer blue = blueSlider.getProgress();
+        int blue = blueSlider.getProgress();
 
         currentColour = Color.rgb(red, green, blue);
         setSelectedGradient(currentColour);
@@ -247,5 +247,4 @@ public class ColourPicker extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 }
