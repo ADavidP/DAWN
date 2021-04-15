@@ -1,10 +1,23 @@
 <resources>
     <string name="app_name">DAWN</string>
-    <string name="edit_message">Enter a message</string>
     <string name="living_room">Living Room</string>
     <string name="bedroom">Bedroom</string>
     <string name="radio">radio</string>
-    <string name="spotify_off">Spotify Off</string>
-    <string name="spotify_on">spotify_on</string>
-    <string name="spotify_string_spotify_on">Spotify @string/spotify_on</string>
+    <string name="sound">Sound</string>
+    <string name="stereo">Stereo</string>
+    <string name="speaker_icon">Speaker Icon</string>
+    <string name="lights">Lights</string>
+    <string name="office">Office</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="party_mode">Party Mode</string>
+    <string name="weekday_alarm">Weekday Alarm</string>
+    <string name="x">X</string>
+    <string name="default_weekday_time">07:00</string>
+    <string name="weekend_alarm">Weekend Alarm</string>
+    <string name="default_weekend_time">9:00</string>
+    <string name="sun_icon">Sun Icon</string>
+    <string name="colour">Colour</string>
+    <string name="alarms">Alarms</string>
+    <string name="router">Router</string>
+    <string name="reset">Reset</string>
 </resources>
