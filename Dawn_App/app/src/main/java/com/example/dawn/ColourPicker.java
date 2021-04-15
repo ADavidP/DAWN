@@ -29,7 +29,7 @@ public class ColourPicker extends AppCompatActivity {
         Intent intent = getIntent();
         currentColour = intent.getIntExtra(MainActivity.COLOUR, getColor(R.color.warm_glow));
 
-        ColorPickerView colourPicker = findViewById(R.id.gradientColourPicker);
+        ColorPickerView colourPicker = findViewById(R.id.gradient_colour_picker);
         colourPicker.setColorListener(new ColorListener() {
             @Override
             public void onColorSelected(int color, boolean fromUser) {
@@ -95,7 +95,7 @@ public class ColourPicker extends AppCompatActivity {
     }
 
     private void setSelectedGradient(@ColorInt Integer colour){
-        ColorPickerView colourPicker = findViewById(R.id.gradientColourPicker);
+        ColorPickerView colourPicker = findViewById(R.id.gradient_colour_picker);
         try {
             colourPicker.selectByHsvColor(colour);
         }
