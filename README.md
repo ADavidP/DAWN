@@ -28,5 +28,9 @@ There are however several dependencies. To make it easier to cannibalise my code
 
 | Functionality      | Dependencies |
 | -----------        | ----------- |
-| Header             | Title       |
-| Paragraph          | Text        |
+| Relay Handling | [RPi.GPIO Python package](https://pypi.org/project/RPi.GPIO/) |
+| Internet Radio | A configured [mpc](https://linux.die.net/man/1/mpc) playlist |
+| Spotify | [raspotify](https://github.com/dtcooper/raspotify) |
+| LED Strip Handling | Involves setup depending on configuration - all details can be found over at [adafruit](https://learn.adafruit.com/adafruit-neopixel-uberguide) |
+| Colour Selection In App | [ColorPickerPreference](https://github.com/skydoves/ColorPickerPreference) |
+| Party Mode | [numpy](https://pypi.org/project/numpy/) for random selection of light show sub-functions |
