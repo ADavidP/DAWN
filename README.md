@@ -7,12 +7,12 @@ This project is comprised of two parts: A server written in Python to be run on 
 
 - The server controls several relays which are used to provide power to a stereo, 4 speakers, a [NeoPixel](https://learn.adafruit.com/adafruit-neopixel-uberguide) LED strip & a router. Some relays are directly accessible to the end user i.e. stereo & speakers, whereas some are automatic i.e. the LED strip automatically shuts off if no lights are on.
 - Music output with the options of:
- - Several internet streams, using [mpc](https://linux.die.net/man/1/mpc) 
- - Spotify using [raspotify](https://github.com/dtcooper/raspotify)
+  - Several internet streams, using [mpc](https://linux.die.net/man/1/mpc) 
+  - Spotify using [raspotify](https://github.com/dtcooper/raspotify)
 - Lighting, with the options of:
- - Turning on and off sections of the LED strip corresponding to different rooms
- - Adjusting brightness and colour
- - A party mode which delivers a lightshow
+  - Turning on and off sections of the LED strip corresponding to different rooms
+  - Adjusting brightness and colour
+  - A party mode which delivers a lightshow
 - Resetting the router (simply turns off the relay powering it for a few seconds)
 - A kill switch - if no device recognised by the server is detected in over half an hour then lights and stereo are switched off
 - A welcome home feature - upon a recognised device returning home, if the PIR (passive infrared sensor) detects movement the kitchen lights will turn on
