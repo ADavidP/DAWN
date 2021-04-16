@@ -21,7 +21,8 @@ This project is comprised of two parts: A server written in Python to be run on 
 
 This is an incredibly bespoke project, however it should just be a matter of:
 
-- Downloading Dawn_Server to a pi and running the package with Python 3 (I used Python 3.5) (must be as root due to NeoPixel library) i.e. sudo python3 Dawn_Server
+- Downloading Dawn_Server to a pi and running the package with Python 3 (I used Python 3.5) (must be as root due to NeoPixel library) i.e. 
+        sudo python3 Dawn_Server
 - Downloading Dawn_App to an android phone and running through e.g. Android Studio
 
 There are however several dependencies. To make it easier to cannibalise my code I've mapped functionalities to dependencies:
