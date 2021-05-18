@@ -25,7 +25,7 @@ def build_response(music_obj,  # type: music_handler.MusicHandler
         """Adds alarm time to response"""
         if alarm_time is None:
             r += False.to_bytes(1, 'big')
-            r += (0).to_bytes(1, 'big')
+            r += (0).to_bytes(2, 'big')
         else:
             r += True.to_bytes(1, 'big')
             r += int(alarm_time.strftime("%H")).to_bytes(1, 'big')
@@ -50,6 +50,7 @@ def build_response(music_obj,  # type: music_handler.MusicHandler
     response += lights_obj.ongoing_party.to_bytes(1, 'big')
     response = add_slider(response, lights_obj.brightness)
     response = add_colour(response, lights_obj.rgb_colour)
+    import pdb; pdb.set_trace()
     response = add_alarm_time(response, alarm_obj.weekday_alarm_time)
     response = add_alarm_time(response, alarm_obj.weekend_alarm_time)
 
