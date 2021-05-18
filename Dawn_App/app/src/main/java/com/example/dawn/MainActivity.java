@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Socket socket = new Socket("192.168.1.214", 12345);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                byte[] response = new byte[21];
+                byte[] response = new byte[23];
                 InputStream in = socket.getInputStream();
                 if (isNewColour) {
                     out.println(newColourString);
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     out.println("Request");
                 }
-                in.read(response, 0, 21);
+                in.read(response, 0, 23);
                 processResponse(response);
 
             } catch (IOException ignored) {
@@ -325,10 +325,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             Socket socket = new Socket("192.168.1.214", 12345);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            byte[] response = new byte[21];
+            byte[] response = new byte[23];
             InputStream in = socket.getInputStream();
             out.println(s);
-            in.read(response, 0, 21);
+            in.read(response, 0, 23);
             processResponse(response);
             return true;
         }
