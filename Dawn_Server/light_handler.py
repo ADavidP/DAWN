@@ -6,6 +6,7 @@ A note about architecture: LED pixels will be turned on by a single Python proce
 else, but to constantly update pixels i.e. party mode, requires a process to be constantly engaged so is therefore
 handled by a separate thread which regularly checks for interrupts.
 """
+import sys
 import threading
 import time
 import random
@@ -292,7 +293,7 @@ class LightHandler:
                         self.pixels[j] = (0, 0, 0)
                 self.pixels.show()
                 for k in range(75):
-                    time.sleep(0.01)
+                    time.sleep(0.002)
                     if not self.ongoing_party:
                         return
             for i in range(0, self.NUM_PIXELS):
@@ -325,7 +326,7 @@ class LightHandler:
                         self.pixels[j] = (0, 0, 0)
                 self.pixels.show()
                 for k in range(75):
-                    time.sleep(0.01)
+                    time.sleep(0.002)
                     if not self.ongoing_party:
                         return
             for i in range(0, self.NUM_PIXELS):
@@ -432,6 +433,47 @@ class LightHandler:
                 self.pixels.show()
                 time.sleep(0.003)
 
+        def bar_chase():
+            mid_stern_led = self.END_KITCHEN_PORT_LED + 14
+            mid_bow_led = self.END_BEDROOM_STARBOARD_LED + 14
+            bar_length = 25
+            for repeat in range(3):
+                colour = new_random_colour()
+                for colour_repeat in range(3):
+                    # Range is longest of 4 quadrants to light up
+                    for i in range(self.START_BEDROOM_STARBOARD_LED - mid_stern_led + bar_length):
+                        # Note that 2 trails are going clockwise while the other 2 are going the opposite
+                        heads = [
+                            max([0, mid_stern_led - i]),
+                            min([mid_stern_led + i, self.START_BEDROOM_STARBOARD_LED]),
+                            max([self.START_BEDROOM_STARBOARD_LED, mid_bow_led - i]),
+                            min([mid_bow_led + i, self.NUM_PIXELS])
+                        ]
+                        tails = [
+                            max([0, min([mid_stern_led, mid_stern_led - i + bar_length])]),
+                            min([max([mid_stern_led, mid_stern_led + i - bar_length]), self.START_BEDROOM_STARBOARD_LED]),
+                            max([self.START_BEDROOM_STARBOARD_LED, min([mid_bow_led, mid_bow_led - i + bar_length])]),
+                            min([max([mid_bow_led, mid_bow_led + i]) - bar_length, self.NUM_PIXELS])
+                        ]
+                        for j in range(self.NUM_PIXELS):
+                            if not self.ongoing_party:
+                                return
+                            if (
+                                    heads[0] < j <= tails[0] or
+                                    tails[1] <= j <= heads[1] or
+                                    heads[2] <= j <= tails[2] or
+                                    tails[3] <= j <= heads[3]
+                            ):
+                                self.pixels[j] = colour
+                            else:
+                                self.pixels[j] = (0, 0, 0)
+                        self.pixels.show()
+                        time.sleep(0.001)
+
+            for i in range(0, self.NUM_PIXELS):
+                self.pixels[i] = (0, 0, 0)
+            self.pixels.show()
+
         for pixel_i in range(0, self.NUM_PIXELS):
             self.pixels[pixel_i] = (0, 0, 0)
         self.bedroom_on = False
@@ -443,12 +485,28 @@ class LightHandler:
             # Let physical relay engage
             time.sleep(0.002)
 
-        party_directives = [subdued_glow, slow_burst, subdued_rainbow_chase, subdued_rainbow_chase_reverse, quick_burst,
-                            rainbow_chase, rainbow_chase_reverse, rainbow_cycle, strobe]
-        weights = [0.32, 0.32, 0.075, 0.075, 0.185, 0.0025, 0.0025, 0.019, 0.001]
+        mellow_directives = [slow_burst, subdued_glow]
+        mellow_directives_weights = [0.6, 0.4]
+        medium_directives = [bar_chase, subdued_rainbow_chase, subdued_rainbow_chase_reverse, quick_burst]
+        medium_directives_weights = [0.3, 0.15, 0.15, 0.4]
+        intense_directives = [rainbow_chase, rainbow_chase_reverse, rainbow_cycle, strobe]
+        intense_directives_weights = [0.35, 0.35, 0.29, 0.01]
+        party_directives = [mellow_directives, medium_directives, intense_directives]
+        general_weights = [0.25, 0.6, 0.15]
+
+        assert (sum(mellow_directives_weights) == 1 and
+                sum(medium_directives_weights) == 1 and
+                sum(intense_directives_weights) == 1 and
+                sum(general_weights) == 1)
 
         while self.ongoing_party:
-            choice(party_directives, p=weights)()
+            intensity = choice(party_directives, p=general_weights)
+            if intensity == mellow_directives:
+                choice(mellow_directives, p=mellow_directives_weights)()
+            elif intensity == medium_directives:
+                choice(medium_directives, p=medium_directives_weights)()
+            elif intensity == intense_directives:
+                choice(intense_directives, p=intense_directives_weights)()
 
         # This code reached when party stops
         for pixel_i in range(0, self.NUM_PIXELS):
