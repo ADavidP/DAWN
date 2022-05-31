@@ -247,14 +247,10 @@ public class MainActivity extends AppCompatActivity {
         volumeSlider.setProgress(volume);
 
         ImageView[] stations = {
-                findViewById(R.id.fip),
-                findViewById(R.id.fip_electro),
-                findViewById(R.id.triplej),
-                findViewById(R.id.folk_forward),
-                findViewById(R.id.gaydio),
-                findViewById(R.id.bbc6),
-                findViewById(R.id.seven_inch_soul),
-                findViewById(R.id.heavyweight_reggae)
+                findViewById(R.id.classic),
+                findViewById(R.id.bbc2),
+                findViewById(R.id.bbc_bristol),
+                findViewById(R.id.bbc6)
         };
 
         for (int i = 0; i < stations.length; i++) {
@@ -390,43 +386,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void fip (View view) {
-        sendMessage("fip");
+    public void classic(View view) {
+        sendMessage("classic");
         setSwitches();
     }
 
-    public void fipElectro(View view) {
-        sendMessage("fip_electro");
+    public void bbc2(View view) {
+        sendMessage("bbc2");
         setSwitches();
     }
 
-    public void triplej (View view) {
-        sendMessage("triplej");
-        setSwitches();
-    }
-
-    public void folkForward(View view) {
-        sendMessage("folk_forward");
-        setSwitches();
-    }
-
-    public void gaydio (View view) {
-        sendMessage("gaydio");
+    public void bbcBristol(View view) {
+        sendMessage("bbc_bristol");
         setSwitches();
     }
 
     public void bbc6 (View view) {
         sendMessage("bbc6");
-        setSwitches();
-    }
-
-    public void sevenInchSoul(View view) {
-        sendMessage("seven_inch_soul");
-        setSwitches();
-    }
-
-    public void heavyweightReggae(View view) {
-        sendMessage("heavyweight_reggae");
         setSwitches();
     }
 

@@ -18,14 +18,10 @@ class MusicHandler:
 
     # Mapping of radio station command from app to index in mpc list
     RADIO_STATIONS = {
-        b'fip': 1,
-        b'fip_electro': 2,
-        b'triplej': 3,
-        b'folk_forward': 4,
-        b'gaydio': 5,
-        b'bbc6': 6,
-        b'seven_inch_soul': 7,
-        b'heavyweight_reggae': 8
+        b'classic': 1,
+        b'bbc2': 2,
+        b'bbc_bristol': 3,
+        b'bbc6': 4
     }
 
     def __init__(self):

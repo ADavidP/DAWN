@@ -81,7 +81,7 @@ class AlarmWatch:
         self.music_handler.turn_stereo_on()
         # Turning stereo on only turns on living room speakers by default
         self.music_handler.toggle_bedroom()
-        self.music_handler.play_radio(b'bbc6')
+        self.music_handler.play_radio(b'classic')
         self.light_handler.colour = self.light_handler.DEFAULT
         for i in range(7):
             b = (i + 1)/28.0

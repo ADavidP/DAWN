@@ -115,50 +115,32 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/fip"
+                android:id="@+id/classic"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:onClick="fip"
-                app:srcCompat="@drawable/fip_icon" />
+                android:onClick="classic"
+                app:srcCompat="@drawable/classic_fm" />
 
 
             <ImageView
-                android:id="@+id/fip_electro"
+                android:id="@+id/bbc2"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:onClick="fipElectro"
-                app:srcCompat="@drawable/fip_electro" />
+                android:onClick="bbc2"
+                app:srcCompat="@drawable/radio_2_logo" />
 
             <ImageView
-                android:id="@+id/triplej"
+                android:id="@+id/bbc_bristol"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:onClick="triplej"
-                app:srcCompat="@drawable/triplej_icon" />
-
-            <ImageView
-                android:id="@+id/folk_forward"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:onClick="folkForward"
-                app:srcCompat="@drawable/folkfwd_icon" />
-
-            <ImageView
-                android:id="@+id/gaydio"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:onClick="gaydio"
-                app:srcCompat="@drawable/gaydio_icon" />
+                android:onClick="bbcBristol"
+                app:srcCompat="@drawable/bbc_bristol_logo" />
 
             <ImageView
                 android:id="@+id/bbc6"
@@ -168,24 +150,6 @@
                 android:layout_marginTop="8dp"
                 android:onClick="bbc6"
                 app:srcCompat="@drawable/bbc_icon" />
-
-            <ImageView
-                android:id="@+id/seven_inch_soul"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:onClick="sevenInchSoul"
-                app:srcCompat="@drawable/_soul_400" />
-
-            <ImageView
-                android:id="@+id/heavyweight_reggae"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:onClick="heavyweightReggae"
-                app:srcCompat="@drawable/reggae400" />
 
             <ImageView
                 android:id="@+id/spotify"
